@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "bootstrap@5.3.0-alpha3",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "dist/css/bootstrap-grid.css",
+        "dist/css/bootstrap-grid.css.map",
+        "dist/css/bootstrap-grid.min.css",
+        "dist/css/bootstrap-grid.min.css.map",
+        "dist/css/bootstrap-grid.rtl.css",
+        "dist/css/bootstrap-grid.rtl.css.map",
+        "dist/css/bootstrap-grid.rtl.min.css",
+        "dist/css/bootstrap-grid.rtl.min.css.map",
+        "dist/css/bootstrap-reboot.css",
+        "dist/css/bootstrap-reboot.css.map",
+        "dist/css/bootstrap-reboot.min.css",
+        "dist/css/bootstrap-reboot.min.css.map",
+        "dist/css/bootstrap-reboot.rtl.css",
+        "dist/css/bootstrap-reboot.rtl.css.map",
+        "dist/css/bootstrap-reboot.rtl.min.css",
+        "dist/css/bootstrap-reboot.rtl.min.css.map",
+        "dist/css/bootstrap-utilities.css",
+        "dist/css/bootstrap-utilities.css.map",
+        "dist/css/bootstrap-utilities.min.css",
+        "dist/css/bootstrap-utilities.min.css.map",
+        "dist/css/bootstrap-utilities.rtl.css",
+        "dist/css/bootstrap-utilities.rtl.css.map",
+        "dist/css/bootstrap-utilities.rtl.min.css",
+        "dist/css/bootstrap-utilities.rtl.min.css.map",
+        "dist/css/bootstrap.css",
+        "dist/css/bootstrap.css.map",
+        "dist/css/bootstrap.min.css",
+        "dist/css/bootstrap.min.css.map",
+        "dist/css/bootstrap.rtl.css",
+        "dist/css/bootstrap.rtl.css.map",
+        "dist/css/bootstrap.rtl.min.css",
+        "dist/css/bootstrap.rtl.min.css.map",
+        "dist/js/bootstrap.bundle.js",
+        "dist/js/bootstrap.bundle.js.map",
+        "dist/js/bootstrap.bundle.min.js",
+        "dist/js/bootstrap.bundle.min.js.map",
+        "dist/js/bootstrap.esm.js",
+        "dist/js/bootstrap.esm.js.map",
+        "dist/js/bootstrap.esm.min.js",
+        "dist/js/bootstrap.esm.min.js.map",
+        "dist/js/bootstrap.js",
+        "dist/js/bootstrap.js.map",
+        "dist/js/bootstrap.min.js",
+        "dist/js/bootstrap.min.js.map",
+        "LICENSE"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery@3.6.4",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "LICENSE.txt",
+        "dist/jquery.js",
+        "dist/jquery.min.js",
+        "dist/jquery.min.map"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery-validation@1.19.5",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "LICENSE.md",
+        "dist/additional-methods.js",
+        "dist/additional-methods.min.js",
+        "dist/jquery.validate.js",
+        "dist/jquery.validate.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validation-unobtrusive@4.0.0",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "jquery.validate.unobtrusive.js",
+        "jquery.validate.unobtrusive.min.js"
+      ]
+    }
+  ]
+}
