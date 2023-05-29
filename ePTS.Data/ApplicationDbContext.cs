@@ -83,11 +83,13 @@ namespace ePTS.Data
             builder.Entity<IdentityUserClaim<Guid>>(entity =>
             {
                 entity.ToTable("ApplicationUserClaim");
+                entity.Property(e => e.Id).HasColumnName("ClaimId");
             });
 
             builder.Entity<IdentityUserRole<Guid>>(entity =>
             {
                 entity.ToTable("ApplicationUserRole");
+                entity.HasKey(e => new { e.UserId, e.RoleId });
             });
 
             builder.Entity<IdentityUserLogin<Guid>>(entity =>
@@ -98,18 +100,13 @@ namespace ePTS.Data
             builder.Entity<IdentityRoleClaim<Guid>>(entity =>
             {
                 entity.ToTable("ApplicationRoleClaim");
+                entity.Property(e => e.Id).HasColumnName("ClaimId");
             });
 
             builder.Entity<IdentityUserToken<Guid>>(entity =>
             {
                 entity.ToTable("ApplicationUserToken");
             });
-
-            builder.Entity<IdentityUserClaim<Guid>>(entity =>
-            {
-                entity.ToTable("ApplicationUserClaim");
-            });
-
 
         }
     }
