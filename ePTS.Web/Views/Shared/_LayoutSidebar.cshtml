@@ -1,0 +1,151 @@
+﻿@using ePTS.Web.Extensions;
+<aside class="sidebar sidebar-base sidebar-default sidebar-white navs-rounded-all d-print-none">
+    <!-- Sidebar Header Start -->
+    <div class="sidebar-header d-flex align-items-center justify-content-start">
+        <a href="" class="navbar-brand">
+            <!--Logo Start-->
+            <div class="logo-main">
+                <div class="logo-normal">
+                    EDC
+                </div>
+                <div class="logo-mini">
+                    EDC
+                </div>
+            </div>
+            <!--Logo End-->
+            <!--Logo Text Start-->
+            <h4 class="logo-title">ePTS1</h4>
+            <!--Logo Text End-->
+        </a>
+        <!--Sidebar Toggle Start-->
+        <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+            <i class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </i>
+        </div>
+        <!--Sidebar Toggle End-->
+    </div>
+    <!-- Sidebar Header End -->
+    <!-- Sidebar Body Start -->
+    <div class="sidebar-body pt-0 data-scrollbar" data-scrollbar="true" tabindex="-1" style="overflow: hidden; outline: none;">
+        <div class="sidebar-list">
+            <!-- Sidebar Menu Start -->
+            <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                <!-- Home Section -->
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled" href="" tabindex="-1">
+                        <span class="default-icon">Home</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
+                <!-- Dashboard -->
+                @*<li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="">
+                        <i class="fs-5 bi bi-house-door-fill"></i>
+                        <span class="item-name">Dashboard</span>
+                    </a>
+                </li>*@
+                <li class="nav-item">
+                    <a class="nav-link @Html.IsActive("Schools", "Index")" aria-current="page" href="@Url.Action("Index", "Schools")">
+                        <i class="fs-5 bi bi-house-door-fill"></i>
+                        <span class="item-name">Dashboard</span>
+                    </a>
+                </li>
+                <!-- Menu 1 with submenus -->
+                <li class="nav-item">
+                    <!-- Menu 1 toggle -->
+                    <a class="nav-link" data-bs-toggle="collapse" href="#horizontal-menu" role="button" aria-expanded="false" aria-controls="horizontal-menu">
+                        <i class="fs-5 bi bi-menu-button-wide"></i>
+                        <span class="item-name">Menu 1</span>
+                        <i class="right-icon">
+                            <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </i>
+                    </a>
+                    <!-- Submenu -->
+                    <ul class="sub-nav collapse" id="horizontal-menu" data-bs-parent="#sidebar-menu">
+                        <!-- Submenu 1 -->
+                        <li class="nav-item list-unstyled">
+                            <a class="nav-link " href="#">
+                                <i class="icon">
+                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> S1 </i>
+                                <span class="item-name"> Submenu 1 </span>
+                            </a>
+                        </li>
+                        <!-- Submenu 2 -->
+                        <li class="nav-item list-unstyled">
+                            <a class="nav-link " href="#">
+                                <i class="icon">
+                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> S1 </i>
+                                <span class="item-name"> Submenu 2 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Menu 2 -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="" target="">
+                        <i class="fs-5 bi bi-menu-button-wide"></i>
+                        <span class="item-name">Menu 2<span class="badge rounded-pill bg-success item-name">M2</span></span>
+                    </a>
+                </li>
+                <li><hr class="hr-horizontal"></li>
+                <!-- Assessments Section -->
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled" href="" tabindex="-1">
+                        <span class="default-icon">Assessments</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
+                <!-- Menu 3 -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="" target="">
+                        <i class="fs-5 bi bi-menu-button-wide"></i>
+                        <span class="item-name">Menu 3<span class="badge rounded-pill bg-success item-name">M2</span></span>
+                    </a>
+                </li>
+                <!-- Admin -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fs-5 bi bi-lock"></i>
+                        <span class="item-name">Admin</span>
+                    </a>
+                </li>
+                <li><hr class="hr-horizontal"></li>
+                <!-- Elements Section -->
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled" href="" tabindex="-1">
+                        <span class="default-icon">Elements</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
+                <!-- Menu 4 -->
+                <li class="nav-item mb-5">
+                    <a class="nav-link" aria-current="page" href="" target="">
+                        <i class="fs-5 bi bi-menu-button-wide"></i>
+                        <span class="item-name">Menu 4</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- Sidebar Menu End -->
+        </div>
+    </div>
+    <!-- Sidebar Body End -->
+    <div class="sidebar-footer"></div>
+</aside>

@@ -1,50 +1,115 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ePTS.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ePTS.Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ePTS.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <!-- Google Analytics -->
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - ePTS.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Clarity Analytics -->
+
+    <!-- Primary Meta Tags-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="keywords" content="Education Development Center, EDC, Zambia, Zambia MoGE, USAID" />
+    <meta name="robots" content="index, nofollow">
+    <meta name="author" content="Education Development Center">
+
+    <title>@ViewData["Title"] | ePTS Enhanced Performance Tracking System</title>
+
+    <!-- Social Media Tags (provides site information when sharing link through social media i.e.: skype, whatsapp)-->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:description" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:image" content="~/images/thumbnail.png" />
+    <meta property="og:url" content="https://~" />
+    <meta property="og:site_name" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="https://~" />
+    <meta name="twitter:creator" content="@@EDCtweets" />
+    <meta name="twitter:title" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="twitter:description" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="twitter:image" content="~/images/thumbnail.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://~" />
+
+    <!-- Author Tag -->
+    <meta name="Education Development Center, Inc." />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <!-- Css Theme + Bootstrap -->
+    <link rel="stylesheet" href="~/lib/theme/custom.css" asp-append-version="true" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" asp-append-version="true" />
+
+    <!-- App css -->
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+    <!-- Loads View Specific Styles -->
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", required: false)
+    }
+</head>
+<!-- Body Start preset light, flat, and bordered theme -->
+<body class="light theme-bordered">
+    <!-- Root Start -->
+    <div id="root">
+        <!-- App Start -->
+        <div class="App">
+            <!-- Sidebar Start -->
+            <partial name="_LayoutSidebar" />
+            <!-- Sidebar End -->
+            <!-- Main Content Start -->
+            <main role="main" class="main-content">
+                <!-- Nav Start -->
+                <partial name="_LayoutNavbar" />
+                <!-- Nav End -->
+                <!-- Inner Page Content Wrapper Start -->
+                <div id="content" class="container-fluid content-inner">
+                    <!-- View Content Start -->
+                    @RenderBody()
+                    <!-- View Content End -->
+                </div>
+                <!-- Inner Page Content Wrapper End -->
+                <!-- Back to Top -->
+                <div class="back-to-top d-print-none">
+                    <a href="#top" class="btn btn-primary btn-lg back-to-top" role="button">
+                        <i class="bi bi-arrow-up-circle-fill"></i>
+                    </a>
+                </div>
+                <!-- Footer Component Start -->
+                <partial name="_LayoutFooter" />
+                <!-- Footer Component End -->
+            </main>
+            <!-- Main Content End -->
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- App End -->
+    </div>
+    <!-- Root End -->
+
+    <!-- jQuery Script -->
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+    <!-- Bootstrap core Script -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+    <!-- Scrollbar for Sidebar scrolling Script -->
+    <script src="~/lib/smooth-scrollbar/dist/smooth-scrollbar.min.js" asp-append-version="true"></script>
+
+    <!-- App Script -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Loads View Specific Scripts -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<!-- Body End -->
 </html>
