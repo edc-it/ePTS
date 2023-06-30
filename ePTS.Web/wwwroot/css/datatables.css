@@ -1,0 +1,40 @@
+﻿/* ------------------------- Datatables.net styles -------------------------- */
+/* Fix heading text color */
+.table thead tr {
+    background-color: #e2e3e5;
+}
+
+.table thead th {
+    color: #5b5b5b;
+}
+
+.form-select:focus {
+    border-color: #999;
+}
+
+/* Fix on datatable to expand to card-body */
+.table.dataTable {
+    border-collapse: collapse !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Fix on toolbar flex */
+.btn-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* Datatable Responsive Collapsed Icon Background */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
+    border: .15em solid white;
+    box-shadow: 0 0 .1em #444;
+    background-color: #606b7b;
+}
+
+/* Datatable Responsive Expanded Icon Background */
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control::before {
+    content: "-";
+    background-color: #969798;
+}
