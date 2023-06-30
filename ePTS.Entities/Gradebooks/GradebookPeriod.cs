@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ePTS.Entities.Gradebooks
 {
     [Table("GradebookPeriod")]
-    public class GradebookPeriod
+    public class GradebookPeriod : BaseEntity
     {
         public GradebookPeriod()
         {
             Gradebooks = new HashSet<Gradebook>();
-            GradebookPeriodForms = new HashSet<GradebookPeriodForm>();
-
+            GradebookAssessmentPeriods = new HashSet<GradebookAssessmentPeriod>();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -27,6 +27,7 @@ namespace ePTS.Entities.Gradebooks
         [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "Registration Date", Prompt = "Enter the registration date")]
         [Comment("Date on which the gradebook period was registered or added to the database")]
+        [DataType(DataType.Date)]
         [Column(Order = 3)]
         public DateTime RegistrationDate { get; set; }
 
@@ -52,7 +53,7 @@ namespace ePTS.Entities.Gradebooks
         public int? RefGradebookPeriodStatusId { get; set; }
 
         public virtual ICollection<Gradebook> Gradebooks { get; set; }
-        public virtual ICollection<GradebookPeriodForm> GradebookPeriodForms { get; set; }
+        public virtual ICollection<GradebookAssessmentPeriod> GradebookAssessmentPeriods { get; set; }
 
     }
 }

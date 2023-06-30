@@ -1,4 +1,5 @@
 using ePTS.Entities.Gradebooks;
+using ePTS.Entities.Reference;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,13 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ePTS.Entities.Core
 {
     [Table("SchoolAcademicYear")]
-    public class SchoolAcademicYear
+    public class SchoolAcademicYear : BaseEntity
     {
         public SchoolAcademicYear()
         {
             Gradebooks = new HashSet<Gradebook>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -24,40 +25,54 @@ namespace ePTS.Entities.Core
         [Display(Name = "School")]
         [Comment("Unique identifier of the school that the academic year belongs to. This is a foreign key that references the School table")]
         [Column(Order = 2)]
-        public Guid? OrganizationId { get; set; }
+        public Guid OrganizationId { get; set; }
 
         [Display(Name = "Academic Year", Prompt = "Select the academic year")]
         [Comment("A reference to the academic year, such as 2022, 2023, etc. This is a foreign key that references the RefAcademicYear table")]
         [Column(Order = 3)]
-        public int? RefAcademicYearId { get; set; }
+        public int RefAcademicYearId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "Registration Date", Prompt = "Enter the registration date")]
         [Comment("Date on which the school academic year was registered or added to the database")]
+        [DataType(DataType.Date)]
         [Column(Order = 4)]
         public DateTime RegistrationDate { get; set; }
 
-        [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "Start Date", Prompt = "Enter the start date")]
         [Comment("the starting date for the academic year")]
+        [DataType(DataType.Date)]
         [Column(Order = 5)]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "End Date", Prompt = "Enter the end date")]
         [Comment("The ending date for the academic year")]
+        [DataType(DataType.Date)]
         [Column(Order = 6)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [Display(Name = "Status")]
         [Comment("A reference to the status of the academic year, such as started, not started, completed, or closed. This is a foreign key that references the RefAcademicYearStatus table")]
         [Column(Order = 7)]
         public int? RefAcademicYearStatusId { get; set; }
 
-        [Required(ErrorMessage = "The {0} field is required.")]
-        [Display(Name = "Missing enrollment?")]
+        [Display(Name = "Is Missing Enrollment")]
         [Column(Order = 8)]
-        public bool IsMissingEnrollment { get; set; }
+        [Comment("Indicates whether the academic year is missing enrollment data")]
+        public bool? IsMissingEnrollment { get; set; } = null;
+
+        [ForeignKey("OrganizationId")]
+        [Display(Name = "Schools")]
+        public virtual School? Schools { get; set; }
+
+        [ForeignKey("RefAcademicYearId")]
+        [InverseProperty("SchoolAcademicYears")]
+        [Display(Name = "Academic Years")]
+        public virtual RefAcademicYear? AcademicYears { get; set; }
+
+        [ForeignKey("RefAcademicYearStatusId")]
+        [Display(Name = "Academic Year Status")]
+        public virtual RefAcademicYearStatus? AcademicYearStatus { get; set; }
 
         public virtual ICollection<Gradebook> Gradebooks { get; set; }
 

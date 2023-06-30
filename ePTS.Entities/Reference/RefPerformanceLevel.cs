@@ -11,8 +11,8 @@ namespace ePTS.Entities.Reference
         public RefPerformanceLevel()
         {
             AssessmentPerformanceLevels = new HashSet<AssessmentPerformanceLevel>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -34,10 +34,25 @@ namespace ePTS.Entities.Reference
         [Column(Order = 3)]
         public string? PerformanceLevel { get; set; } = null!;
 
+        [Display(Name = "Min Performance Level", Prompt = "Enter the minimum performance level")]
+        [Comment("The minimum performance level")]
+        [Column(Order = 4)]
+        public double? MinPerformanceLevel { get; set; }
+
+        [Display(Name = "Max Performance Level", Prompt = "Enter the maximum performance level")]
+        [Comment("The maximum performance level")]
+        [Column(Order = 5)]
+        public double? MaxPerformanceLevel { get; set; }
+
+        [Display(Name = "Color", Prompt = "Set the performance level color")]
+        [Comment("The color for the performance level")]
+        [Column(Order = 6)]
+        public string? Color { get; set; }
+
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Comment("A numeric value that represents the order in which the assessment item type should be displayed")]
-        [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        [Column(Order = 7)]
+        public int? SortOrder { get; set; }
 
         public virtual ICollection<AssessmentPerformanceLevel> AssessmentPerformanceLevels { get; set; }
 

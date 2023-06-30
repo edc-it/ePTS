@@ -12,7 +12,6 @@ namespace ePTS.Entities.Identity
         [Column(Order = 3)]
         public string? Description { get; set; }
 
-
     }
 }
 

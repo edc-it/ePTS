@@ -11,8 +11,8 @@ namespace ePTS.Entities.Reference
         public RefAcademicYear()
         {
             SchoolAcademicYears = new HashSet<SchoolAcademicYear>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -39,11 +39,13 @@ namespace ePTS.Entities.Reference
 
         [Display(Name = "Start Date", Prompt = "Enter the start date")]
         [Comment("Date on which the academic year starts")]
+        [DataType(DataType.Date)]
         [Column(Order = 5)]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "End Date", Prompt = "Enter the end date")]
         [Comment("Date on which the academic year ends")]
+        [DataType(DataType.Date)]
         [Column(Order = 6)]
         public DateTime EndDate { get; set; }
 
@@ -53,7 +55,7 @@ namespace ePTS.Entities.Reference
 
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Column(Order = 8)]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
 
         public virtual ICollection<SchoolAcademicYear> SchoolAcademicYears { get; set; }
 

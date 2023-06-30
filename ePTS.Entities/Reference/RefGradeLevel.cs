@@ -1,5 +1,4 @@
 using ePTS.Entities.Assessments;
-using ePTS.Entities.Enrollments;
 using ePTS.Entities.Gradebooks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -13,11 +12,11 @@ namespace ePTS.Entities.Reference
         public RefGradeLevel()
         {
             Assessments = new HashSet<Assessment>();
-            SchoolEnrollments = new HashSet<SchoolEnrollment>();
             Gradebooks = new HashSet<Gradebook>();
             GradebookPeriods = new HashSet<GradebookPeriod>();
-
+            AssessmentCategories = new HashSet<RefAssessmentCategory>();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -45,12 +44,12 @@ namespace ePTS.Entities.Reference
 
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Column(Order = 5)]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
 
         public virtual ICollection<Assessment> Assessments { get; set; }
-        public virtual ICollection<SchoolEnrollment> SchoolEnrollments { get; set; }
         public virtual ICollection<Gradebook> Gradebooks { get; set; }
         public virtual ICollection<GradebookPeriod> GradebookPeriods { get; set; }
+        public virtual ICollection<RefAssessmentCategory> AssessmentCategories { get; set; }
 
     }
 }

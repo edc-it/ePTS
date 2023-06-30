@@ -10,10 +10,9 @@ namespace ePTS.Entities.Reference
     {
         public RefSex()
         {
-            AssessmentResults = new HashSet<AssessmentResult>();
             AssessmentPerformanceLevels = new HashSet<AssessmentPerformanceLevel>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -37,9 +36,8 @@ namespace ePTS.Entities.Reference
 
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
 
-        public virtual ICollection<AssessmentResult> AssessmentResults { get; set; }
         public virtual ICollection<AssessmentPerformanceLevel> AssessmentPerformanceLevels { get; set; }
 
     }

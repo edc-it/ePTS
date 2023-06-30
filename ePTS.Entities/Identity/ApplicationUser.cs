@@ -8,6 +8,11 @@ namespace ePTS.Entities.Identity
     [Table("ApplicationUser")]
     public class ApplicationUser : IdentityUser<Guid>
     {
+        public ApplicationUser()
+        {
+            UserOrganizations = new HashSet<ApplicationUserOrganization>();
+        }
+
         [Display(Name = "First Name")]
         [MaxLength(70)]
         [Comment("The first name or given name of a user")]
@@ -29,7 +34,7 @@ namespace ePTS.Entities.Identity
         [Display(Name = "Created Date")]
         [Comment("The date and time when the record was created")]
         [Column(Order = 7)]
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
 
         [Display(Name = "Modified By")]
         [MaxLength(50)]
@@ -40,7 +45,7 @@ namespace ePTS.Entities.Identity
         [Display(Name = "Modified Date")]
         [Comment("The date and time when the record was last modified")]
         [Column(Order = 9)]
-        public DateTime ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
 
         [Display(Name = "Deleted By")]
         [MaxLength(50)]
@@ -51,12 +56,14 @@ namespace ePTS.Entities.Identity
         [Display(Name = "Deleted Date")]
         [Comment("The date and time when the record was marked as deleted")]
         [Column(Order = 11)]
-        public DateTime DeletedDate { get; set; }
+        public DateTimeOffset? DeletedDate { get; set; }
 
         [Display(Name = "Is Deleted?")]
         [Comment("A flag indicating whether the record is marked as deleted (true) or active (false)")]
         [Column(Order = 12)]
         public bool IsDeleted { get; set; }
+
+        public virtual ICollection<ApplicationUserOrganization> UserOrganizations { get; set; }
 
 
     }

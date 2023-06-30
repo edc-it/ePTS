@@ -11,8 +11,8 @@ namespace ePTS.Entities.Reference
         public RefSchoolAdministrationType()
         {
             Schools = new HashSet<School>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -37,7 +37,7 @@ namespace ePTS.Entities.Reference
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Comment("A numeric value that represents the order in which the assessment item type should be displayed")]
         [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
 
         public virtual ICollection<School> Schools { get; set; }
 

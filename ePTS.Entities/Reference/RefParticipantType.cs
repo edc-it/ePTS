@@ -1,4 +1,4 @@
-using ePTS.Entities.Enrollments;
+using ePTS.Entities.Gradebooks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,9 +10,9 @@ namespace ePTS.Entities.Reference
     {
         public RefParticipantType()
         {
-            SchoolEnrollments = new HashSet<SchoolEnrollment>();
-
+            SchoolEnrollments = new HashSet<GradebookEnrollment>();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -37,9 +37,9 @@ namespace ePTS.Entities.Reference
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Comment("A numeric value that represents the order in which the assessment item type should be displayed")]
         [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
 
-        public virtual ICollection<SchoolEnrollment> SchoolEnrollments { get; set; }
+        public virtual ICollection<GradebookEnrollment> SchoolEnrollments { get; set; }
 
     }
 }

@@ -11,8 +11,8 @@ namespace ePTS.Entities.Reference
         public RefOrganizationType()
         {
             Organizations = new HashSet<Organization>();
-
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -33,9 +33,15 @@ namespace ePTS.Entities.Reference
         [Column(Order = 3)]
         public string? Code { get; set; }
 
-        [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [Display(Name = "IsOrganizationUnit", Prompt = "Is it an organization unit? (Yes/No)")]
+        [Comment("A Boolean value indicating whether this entity is a container")]
         [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        public bool IsOrganizationUnit { get; set; }
+
+        [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
+        [Column(Order = 5)]
+        public int? SortOrder { get; set; }
 
         public virtual ICollection<Organization> Organizations { get; set; }
 

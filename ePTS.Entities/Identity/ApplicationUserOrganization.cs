@@ -7,9 +7,9 @@ namespace ePTS.Entities.Identity
 {
     [Table("ApplicationUserOrganization")]
     [PrimaryKey(nameof(UserId), nameof(OrganizationId))]
-    public class ApplicationUserOrganization
+    public class ApplicationUserOrganization : BaseEntity
     {
-        [Key]
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "User")]
@@ -21,10 +21,10 @@ namespace ePTS.Entities.Identity
         public Guid? OrganizationId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual required ApplicationUser Users { get; set; }
+        public virtual ApplicationUser? Users { get; set; }
 
         [ForeignKey(nameof(OrganizationId))]
-        public virtual required Organization Organizations { get; set; }
+        public virtual Organization? Organizations { get; set; }
 
 
 

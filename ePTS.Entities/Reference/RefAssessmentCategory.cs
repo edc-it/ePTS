@@ -10,10 +10,9 @@ namespace ePTS.Entities.Reference
     {
         public RefAssessmentCategory()
         {
-            AssessmentFormItems = new HashSet<AssessmentFormItem>();
-            AssessmentResults = new HashSet<AssessmentResult>();
-
+            AssessmentItems = new HashSet<AssessmentItem>();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -35,13 +34,27 @@ namespace ePTS.Entities.Reference
         [Column(Order = 3)]
         public string? AssessmentCategory { get; set; } = null!;
 
+        [Display(Name = "Assessment Category Description", Prompt = "Enter the assessment category description")]
+        [MaxLength(384)]
+        [Comment("The description of the assessment category")]
+        [Column(Order = 4)]
+        public string? AssessmentCategoryDescription { get; set; } = null!;
+
+        //Foreign Key for RefGradeLevelId
+        [Display(Name = "Grade Level", Prompt = "Select the grade level")]
+        [Comment("The grade level for the assessment category")]
+        [Column(Order = 5)]
+        public int? RefGradeLevelId { get; set; }
+
+        [ForeignKey("RefGradeLevelId")]
+        public virtual RefGradeLevel? RefGradeLevel { get; set; } = null!;
+
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Comment("A numeric value that represents the order in which the assessment categories should be displayed")]
-        [Column(Order = 4)]
-        public int SortOrder { get; set; }
+        [Column(Order = 6)]
+        public int? SortOrder { get; set; }
 
-        public virtual ICollection<AssessmentFormItem> AssessmentFormItems { get; set; }
-        public virtual ICollection<AssessmentResult> AssessmentResults { get; set; }
+        public virtual ICollection<AssessmentItem> AssessmentItems { get; set; }
 
     }
 }
