@@ -285,3 +285,7 @@ $mynewcolor: #77cccc;
         }
     }
 }
+
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-primary);
+}
