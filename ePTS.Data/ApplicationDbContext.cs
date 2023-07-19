@@ -67,6 +67,9 @@ namespace ePTS.Data
 
         // Audit Log
         public DbSet<AuditLog> AuditLogs { get; set; } = null!;
+
+        // Log
+        public DbSet<ApplicationLog> ApplicationLogs { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -76,7 +79,7 @@ namespace ePTS.Data
             builder.Entity<Organization>(entity =>
             {
                 // Global query filter to ignore rows where IsDeleted is true
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 // Set the column type to SQL date (not datetime)
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
                 entity.UseTptMappingStrategy();
@@ -84,7 +87,7 @@ namespace ePTS.Data
 
             builder.Entity<SchoolAcademicYear>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 // Composite index on these two columns
                 entity.HasIndex(s => new { s.OrganizationId, s.RefAcademicYearId })
                 // The combination of values in these columns must be unique across all rows
@@ -95,64 +98,64 @@ namespace ePTS.Data
 
             builder.Entity<Gradebook>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.HasIndex(s => new { s.SchoolAcademicYearId, s.RefGradeLevelId }).IsUnique();
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<GradebookEnrollment>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.HasIndex(s => new { s.GradebookId, s.RefParticipantTypeId }).IsUnique();
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<GradebookAssessment>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.HasIndex(s => new { s.GradebookId, s.GradebookAssessmentPeriodId }).IsUnique();
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<GradebookPeriod>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<GradebookAssessmentPeriod>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
             builder.Entity<AssessmentResult>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.HasIndex(s => new { s.GradebookAssessmentId, s.AssessmentItemId }).IsUnique();
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<AssessmentPerformanceLevel>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.HasIndex(s => new { s.GradebookAssessmentId, s.RefPerformanceLevelId, s.RefSexId }).IsUnique();
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<Assessment>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
                 entity.Property(p => p.RegistrationDate).HasColumnType("date");
             });
 
             builder.Entity<AssessmentItem>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
             builder.Entity<ApplicationUserOrganization>(entity =>
             {
-                entity.HasQueryFilter(p => !p.IsDeleted);
+                //entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
 
@@ -162,7 +165,7 @@ namespace ePTS.Data
             {
                 entity.ToTable(name: "ApplicationUser");
                 entity.Property(e => e.Id).HasColumnName("UserId");
-                entity.HasQueryFilter(e => !e.IsDeleted);
+                //entity.HasQueryFilter(e => !e.IsDeleted);
             });
 
             builder.Entity<ApplicationRole>(entity =>
@@ -313,36 +316,36 @@ namespace ePTS.Data
                             entry.CurrentValues["ModifiedBy"] = userName;
                             break;
 
-                        case EntityState.Deleted:
-                            entry.State = EntityState.Modified;
-                            //Soft delete cascade
-                            //https://github.com/dotnet/efcore/issues/11240
-                            entry.CurrentValues["IsDeleted"] = true;
-                            entry.CurrentValues["CreatedDate"] = entry.GetDatabaseValues()?.GetValue<object>("CreatedDate");
-                            entry.CurrentValues["CreatedBy"] = entry.GetDatabaseValues()?.GetValue<object>("CreatedBy");
-                            entry.CurrentValues["ModifiedDate"] = entry.GetDatabaseValues()?.GetValue<object>("ModifiedDate");
-                            entry.CurrentValues["ModifiedBy"] = entry.GetDatabaseValues()?.GetValue<object>("ModifiedBy");
-                            entry.CurrentValues["DeletedDate"] = DateTimeOffset.UtcNow;
-                            entry.CurrentValues["DeletedBy"] = userName;
-                            foreach (var navigationEntry in entry.Navigations.Where(x => !((IReadOnlyNavigation)x.Metadata).IsOnDependent))
-                            {
-                                if (navigationEntry is CollectionEntry collectionEntry)
-                                {
-                                    foreach (var dependentEntry in collectionEntry.CurrentValue!)
-                                    {
-                                        HandleDependent(Entry(dependentEntry));
-                                    }
-                                }
-                                else
-                                {
-                                    var dependentEntry = navigationEntry.CurrentValue;
-                                    if (dependentEntry != null)
-                                    {
-                                        HandleDependent(Entry(dependentEntry));
-                                    }
-                                }
-                            }
-                            break;
+                        //case EntityState.Deleted:
+                        //    entry.State = EntityState.Modified;
+                        //    //Soft delete cascade
+                        //    //https://github.com/dotnet/efcore/issues/11240
+                        //    entry.CurrentValues["IsDeleted"] = true;
+                        //    entry.CurrentValues["CreatedDate"] = entry.GetDatabaseValues()?.GetValue<object>("CreatedDate");
+                        //    entry.CurrentValues["CreatedBy"] = entry.GetDatabaseValues()?.GetValue<object>("CreatedBy");
+                        //    entry.CurrentValues["ModifiedDate"] = entry.GetDatabaseValues()?.GetValue<object>("ModifiedDate");
+                        //    entry.CurrentValues["ModifiedBy"] = entry.GetDatabaseValues()?.GetValue<object>("ModifiedBy");
+                        //    entry.CurrentValues["DeletedDate"] = DateTimeOffset.UtcNow;
+                        //    entry.CurrentValues["DeletedBy"] = userName;
+                        //    foreach (var navigationEntry in entry.Navigations.Where(x => !((IReadOnlyNavigation)x.Metadata).IsOnDependent))
+                        //    {
+                        //        if (navigationEntry is CollectionEntry collectionEntry)
+                        //        {
+                        //            foreach (var dependentEntry in collectionEntry.CurrentValue!)
+                        //            {
+                        //                HandleDependent(Entry(dependentEntry));
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //            var dependentEntry = navigationEntry.CurrentValue;
+                        //            if (dependentEntry != null)
+                        //            {
+                        //                HandleDependent(Entry(dependentEntry));
+                        //            }
+                        //        }
+                        //    }
+                        //    break;
                     }
                 }
             }
