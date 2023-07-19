@@ -6,6 +6,7 @@ namespace ePTS.Models.ViewModels
     public class ApplicationUsersRegisterViewModel
     {
         [Required]
+        [RegularExpression(@"^\S*$", ErrorMessage = "White spaces are not allowed")]
         [Display(Name = "Username")]
         public string? UserName { get; set; }
 
