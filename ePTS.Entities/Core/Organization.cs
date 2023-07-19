@@ -1,5 +1,6 @@
 using ePTS.Entities.Identity;
 using ePTS.Entities.Reference;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,6 +39,7 @@ namespace ePTS.Entities.Core
         [Required(ErrorMessage = "The {0} field is required.")]
         [Display(Name = "Organization Code", Prompt = "Enter the organization code")]
         [MaxLength(100)]
+        [Remote(action: "VerifyOrganizationCode", controller: "RemoteValidations", HttpMethod = "POST", ErrorMessage = "This Code already exists.", AdditionalFields = "OrganizationCodeInitialValue")]
         [Comment("A short code that represents the unique organization")]
         [Column(Order = 3)]
         public string? Code { get; set; } = null!;
