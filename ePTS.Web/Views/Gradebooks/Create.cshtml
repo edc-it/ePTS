@@ -1,0 +1,108 @@
+﻿@model ePTS.Entities.Gradebooks.Gradebook
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Gradebook</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="SchoolAcademicYearId" hidden value="@ViewBag.ParentId" class="form-control" />
+
+            <div class="form-group required">
+                <label asp-for="RegistrationDate" class="form-label"></label>
+                <div class="input-group">
+                    <input asp-for="RegistrationDate" autocomplete="off" type="text" class="form-control date" placeholder="Select Registration Date" required />
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                </div>
+                <div class="form-text">Year-Month-Day (YYYY-MM-DD)</div>
+                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <!--fk select start-->
+                <label asp-for="RefGradeLevelId" class="control-label"></label>
+                <select asp-for="RefGradeLevelId" class="form-control form-select" asp-items="ViewBag.RefGradeLevelId">
+                    <option disabled selected></option>
+                </select>
+                <span asp-validation-for="RefGradeLevelId" class="text-danger"></span>
+                <!--fk select end-->
+            </div>
+            <div class="form-group">
+                <a asp-action="Index" asp-route-id="@ViewBag.ParentId" class="btn btn-outline-secondary me-1"><i class="bi bi-arrow-return-left"></i> Back</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_CreateStylesPartial");
+        <link href="~/lib/tom-select/dist/css/tom-select.min.css" rel="stylesheet">
+        <link href="~/lib/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+        <link href="~/lib/vanillajs-datepicker/dist/css/datepicker.css" rel="stylesheet" />
+        <link href="~/lib/vanillajs-datepicker/dist/css/datepicker-bs5.min.css" rel="stylesheet" />
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @{
+        await Html.RenderPartialAsync("_CreateScriptsPartial");
+
+    }
+
+    <script src="~/lib/tom-select/dist/js/tom-select.popular.min.js"></script>
+    <script src="~/lib/vanillajs-datepicker/dist/js/datepicker.min.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var validator = $('#main-form').validate({ /* settings */ });
+            $('#submitbutton')
+                .on('click', function (e) {
+                    // prevents default submit
+                    e.preventDefault();
+
+                    var form = $('#main-form');
+                    if (form.valid()) {
+                        // activates button 'loading..' style and disables submit button after one click
+                        $('#submitbutton').addClass('disabled');
+                        $(".save-button")
+                            .html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...`);
+                        // disable cancel button after submit
+                        $('#cancelbutton').addClass('disabled');
+                        // submit form
+                        form.submit();
+                    }
+                    else {
+                        // if form is valid submits, else focus to invalid fields
+                        validator.focusInvalid();
+                    }
+                });
+
+
+            const inputs = document.querySelectorAll('.date');
+
+            for (let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                //new Datepicker(input);
+                new Datepicker(input, {
+                    autohide: true,
+                    //format: 'yyyy-mm-dd',
+                    updateOnBlur: false,
+                    buttonClass: 'btn',
+                });
+            }
+
+        });
+    </script>
+}

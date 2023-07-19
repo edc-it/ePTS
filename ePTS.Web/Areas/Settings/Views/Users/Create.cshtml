@@ -1,0 +1,210 @@
+﻿@model ePTS.Models.ViewModels.ApplicationUsersRegisterViewModel
+
+@{
+    ViewData["Title"] = "Create new user";
+}
+
+<h1>Create</h1>
+
+<h4>Create new user</h4>
+<hr />
+<div class="row">
+    <form asp-action="Create" id="main-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-group required">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" autocomplete="off" tabindex="1" required />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group required">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" autocomplete="off" tabindex="3" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label asp-for="RoleId" class="control-label"></label>
+                    <select id="RoleId" name="RoleId" class="form-select custom-select required" tabindex="5" @*asp-items="ViewBag.RoleId"*@ required>
+                        <option disabled="" selected=""></option>
+                        <option value="7f398148-6a9c-4ccf-9e34-7a45499b952c">Read</option>
+                        <option value="7a22b248-da2b-44ce-8e10-30aa2b43fae1">Edit</option>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                        {
+                            <option value="460dd3ac-42f4-417d-9ed5-58eb2659601d">Administrator</option>
+                        }
+                        
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-group required">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="off" tabindex="2" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" tabindex="4" required />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>*@
+        <div class="card mb-3" asp-enabled="OrganizationId">
+            <div class="card-header">
+                Organization
+            </div>
+            <div class="card-body pb-2">
+                <!--fk tree start-->
+                <div class="input-group required input-group-sm">
+                    <input type="text" id="tree-search" autocomplete="off" placeholder="Search" tabindex="6" class="form-control search-input" value="" />
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+                <small><div id="collapse" class="btn btn-outline-secondary btn-sm me-1"><i class="bi bi-dash"></i> collapse</div> <div id="expand" class="btn btn-outline-secondary btn-sm"><i class="bi bi-plus"></i> expand</div></small>
+                <div id="tree-container" class="px-3 py-1">
+                    <div id="tree" class="mb-5"></div>
+                </div>
+                <input asp-for="OrganizationId" required type="hidden" />
+                <div class="border-top pt-1">
+                    <span>Selected organization: <span id="SelectedOrganizationId"><span class="text-muted">none selected</span></span></span>
+                </div>
+                <span asp-validation-for="OrganizationId" class="text-danger"></span>
+                <!--fk tree end-->
+            </div>
+        </div>
+
+
+        <!-- button group start -->
+        <div class="form-group text-right mt-5">
+            <a id="cancelbutton" class="btn btn-secondary mr-2" asp-action="Index">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+            <button id="submitbutton" type="submit" value="Create" class="btn btn-primary">
+                <span id="spinner" class="d-none spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i class="bi bi-check2"></i> Create
+            </button>
+        </div>
+        <!-- button group end -->
+
+    </form>
+</div>
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_CreateStylesPartial");
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_CreateScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // *** FOR JSTREE ***
+            // Allows JQuery Validator to validate input hidden fields.
+            // The selected Organization in the JStree plugin is a hidden input field
+            // that its value gets updated on JStree change event.
+            // This validates the selection of the Organization in the JStree on submit
+            $("#main-form").data("validator").settings.ignore = "";
+
+            // Initialize and load the JStree plugin, loading the Organization hierarchy structure
+            // from the JSON request. The ['search'] plugin is enabled.
+            var tree = $('#tree').jstree({
+                'core': {
+                    'data': {
+                        "url": "/Requests/GetOrganizationTree/?id=@ViewBag.ParentOrganizationId",
+                        "dataType": "json"
+                    },
+                    "check_callback": false,
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'multiple': false
+                },
+                "search": {
+                    "case_sensitive": false,
+                    "show_only_matches": true,
+                    "show_only_matches_children": true
+                },
+                "plugins": ["search"]
+            });
+
+            // Expands or Collapses the JStree
+            var instance = $('#tree').jstree(true);
+            $("#collapse").on("click", function () {
+                instance.close_all();
+            });
+
+            $("#expand").on("click", function () {
+                instance.open_all();
+            });
+
+            // JStree Search on keyup
+            var from = false;
+            $('#tree-search').keyup(function () {
+                if (from) {
+                    clearTimeout(from);
+                }
+                from = setTimeout(function () {
+                    var v = $('#tree-search').val();
+                    $('#tree').jstree(true).search(v);
+                }, 250);
+            });
+
+            // JStree-From on node select, update hidden input field OrganizationId
+            // and display "You selected: " html.
+            tree.on('changed.jstree', function (e, data) {
+                e.preventDefault();
+                if (data.selected) {
+                    $('#OrganizationId').val(data.selected);
+                    $('#SelectedOrganizationId').html(data.instance.get_selected(true)[0].text);
+                }
+            });
+
+            // Disables Submit button after one click if form is valid
+            // sets "loading..." button styles
+            var validator = $('#main-form').validate({ /* settings */ });
+            $('#submitbutton')
+                .on('click', function (e) {
+                    // prevents default submit
+                    e.preventDefault();
+
+                    var form = $('#main-form');
+                    if (form.valid()) {
+                        // activates button 'loading..' style and disables submit button after one click
+                        $('#spinner').removeClass('d-none');
+                        $('#submitbutton').addClass('disabled');
+                        // disable cancel button after submit
+                        $('#cancelbutton').addClass('disabled');
+                        // submit form
+                        form.submit();
+                    }
+                    else {
+                        // if form is valid submits, else focus to invalid fields
+                        validator.focusInvalid();
+                    }
+                });
+        });
+    </script>
+}

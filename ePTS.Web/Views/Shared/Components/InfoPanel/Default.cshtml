@@ -1,0 +1,111 @@
+﻿@model ePTS.Models.ViewModels.InfoPanelViewModel
+
+<ol class="breadcrumb breadcrumb-chevron">
+    @foreach (var item in Model.OrganizationParent!)
+    {
+        if (item.RefOrganizationTypeId == 5)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index"
+                   asp-controller="Schools"
+                   asp-route-id="@item.OrganizationId"
+                   class="link-body-emphasis fw-medium text-decoration-none" title="@item.OrganizationTypes.OrganizationType">
+                    @*<i class="bi bi-house-fill me-1 f5 text-secondary"></i>*@
+                    @item.OrganizationName
+                </a>
+            </li>
+        }
+        else if (item.RefOrganizationTypeId == 6)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index"
+                   asp-controller="SchoolAcademicYears"
+                   asp-route-id="@item.OrganizationId"
+                   class="link-body-emphasis fw-medium text-decoration-none" title="@item.OrganizationTypes.OrganizationType">
+                    @*<i class="bi bi-house-fill me-1 f5 text-secondary"></i>*@
+                    @item.OrganizationName
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index"
+                   asp-controller="Organizations"
+                   asp-route-id="@item.OrganizationId"
+                   class="link-body-emphasis fw-medium text-decoration-none" title="@item.OrganizationTypes.OrganizationType">
+                    @*<i class="bi bi-house-fill me-1 f5 text-secondary"></i>*@
+                    @item.OrganizationName
+                </a>
+            </li>
+        }
+    }
+
+    @if (Model.CurrentController == "Gradebooks")
+    {
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Gradebooks" asp-route-id="@Model.SchoolAcademicYearId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.AcademicYear
+            </a>
+        </li>
+
+    }
+
+    @if (Model.CurrentController == "GradebookEnrollments")
+    {
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Gradebooks" asp-route-id="@Model.SchoolAcademicYearId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.AcademicYear
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="GradebookEnrollments" asp-route-id="@Model.GradebookId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.GradeLevel
+            </a>
+        </li>
+
+    }
+
+    @if (Model.CurrentController == "GradebookAssessments")
+    {
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Gradebooks" asp-route-id="@Model.SchoolAcademicYearId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.AcademicYear
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="GradebookAssessments" asp-route-id="@Model.GradebookId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.GradeLevel
+            </a>
+        </li>
+
+    }
+    @if (Model.CurrentController == "AssessmentResults")
+    {
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Gradebooks" asp-route-id="@Model.SchoolAcademicYearId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.AcademicYear
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="GradebookAssessments" asp-route-id="@Model.GradebookId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.GradeLevel
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="AssessmentResults" asp-route-id="@Model.GradebookAssessmentId"
+               class="link-body-emphasis fw-medium text-decoration-none">
+                @Model.AssessmentTerm @Model.AssessmentWeek
+            </a>
+        </li>
+
+    }
+
+</ol>

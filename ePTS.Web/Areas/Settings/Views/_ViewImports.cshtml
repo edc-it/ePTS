@@ -1,3 +1,16 @@
 ﻿@using ePTS.Web
 @using ePTS.Web.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@* View-based authorization *@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@using Microsoft.AspNetCore.Identity
+@using ePTS.Entities.Identity
+@inject UserManager<ApplicationUser> _userManager
+@inject SignInManager<ApplicationUser> _signInManager
+
+@* Configurations *@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration

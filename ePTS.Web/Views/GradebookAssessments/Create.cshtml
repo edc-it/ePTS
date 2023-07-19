@@ -1,0 +1,81 @@
+﻿@model ePTS.Entities.Gradebooks.GradebookAssessment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>GradebookAssessment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+            <!--fk select start-->
+                <label asp-for="GradebookId" class="control-label"></label>
+                <select asp-for="GradebookId" class ="form-control" asp-items="ViewBag.GradebookId"></select>
+                <!--fk select end-->
+            </div>
+            <div class="form-group">
+            <!--fk select start-->
+                <label asp-for="GradebookAssessmentPeriodId" class="control-label"></label>
+                <select asp-for="GradebookAssessmentPeriodId" class ="form-control" asp-items="ViewBag.GradebookAssessmentPeriodId"></select>
+                <!--fk select end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="RegistrationDate" class="control-label"></label>
+                <input asp-for="RegistrationDate" class="form-control" />
+                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+                <!--input end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="AssessedFemale" class="control-label"></label>
+                <input asp-for="AssessedFemale" class="form-control" />
+                <span asp-validation-for="AssessedFemale" class="text-danger"></span>
+                <!--input end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="AssessedMale" class="control-label"></label>
+                <input asp-for="AssessedMale" class="form-control" />
+                <span asp-validation-for="AssessedMale" class="text-danger"></span>
+                <!--input end-->
+            </div>
+                    <!--Add Date here-->
+            
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--fk select start-->
+                <label asp-for="RefGradebookAssessmentStatusId" class="control-label"></label>
+                <select asp-for="RefGradebookAssessmentStatusId" class ="form-control" asp-items="ViewBag.RefGradebookAssessmentStatusId"></select>
+                <!--fk select end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="IsMissingAssessmentResults" class="control-label"></label>
+                <input asp-for="IsMissingAssessmentResults" class="form-control" />
+                <span asp-validation-for="IsMissingAssessmentResults" class="text-danger"></span>
+                <!--input end-->
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

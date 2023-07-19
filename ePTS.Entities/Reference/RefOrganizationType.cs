@@ -39,6 +39,9 @@ namespace ePTS.Entities.Reference
         [Column(Order = 4)]
         public bool IsOrganizationUnit { get; set; }
 
+        [Display(Name = "IsSchool", Prompt = "Is it a school? (Yes/No)")]
+        public bool? IsSchool { get; set; }
+
         [Display(Name = "Sort Order", Prompt = "Enter the sort order")]
         [Column(Order = 5)]
         public int? SortOrder { get; set; }

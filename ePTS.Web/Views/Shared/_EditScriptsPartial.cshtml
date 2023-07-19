@@ -1,0 +1,27 @@
+﻿<script src="~/lib/select2/dist/js/select2.min.js" asp-append-version="true"></script>
+<script src="~/lib/jstree/dist/jstree.min.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" asp-append-version="true"></script>
+<script>
+    var validator = $('#main-form').validate({ /* settings */ });
+    $('#submitbutton')
+        .on('click', function (e) {
+            // prevents default submit
+            e.preventDefault();
+
+            var form = $('#main-form');
+            if (form.valid()) {
+                // activates ladda-button 'loading..' style and disables submit button after one click
+                // var l = Ladda.create(this);
+                // l.start();
+
+                // disable cancel button after submit
+                $('#cancelbutton').addClass('disabled');
+                // submit form
+                form.submit();
+            }
+            else {
+                // if form is valid submits, else focus to invalid fields
+                validator.focusInvalid();
+            }
+        });
+</script>

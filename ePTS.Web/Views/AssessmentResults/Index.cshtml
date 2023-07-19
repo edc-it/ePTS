@@ -1,0 +1,630 @@
+﻿@model ePTS.Models.ViewModels.AssessmentSummaryViewModel
+
+@{
+    ViewData["Title"] = "AssessmentResult" + " List";
+}
+
+<!--content start-->
+<!--heading section start-->
+<section>
+    <!--breadcrumb start-->
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                @if (ViewBag.ParentId != null)
+                {
+                    @await Component.InvokeAsync("InfoPanel", Model.InfoPanel)
+                }
+            </nav>
+        </div>
+    </div>
+    <!--breadcrumb end-->
+</section>
+<!--heading section end-->
+<!--infopanel section start-->
+<section>
+    <div class="row info-panel mb-0">
+        <div class="col-sm-12">
+            <div class="card mb-3 border">
+                <div class="card-header text-dark">
+                    <h2 class="card-title mb-0 text-dark px-2">
+                        @Html.DisplayFor(model => model.InfoPanel!.OrganizationName)
+                    </h2>
+                    <div class="row justify-content-between pt-0 px-2 mb-1">
+                        <div class="col me-auto">
+                            <p class="card-subtitle mb-3">
+                                @Html.DisplayFor(model => model.InfoPanel!.OrganizationType)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 pb-2 bg-secondary-subtle rounded-bottom">
+                    <div class="row my-0">
+                        <div class="col-md-8 pe-lg-0 pe-md-0 mt-0 mb-1 pt-0">
+                            <ul class="list-unstyled text-dark">
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayFor(model => model.InfoPanel!.OrganizationType):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.OrganizationName)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Code):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.Code)</span>
+                                </li>
+                                @if (Model.InfoPanel!.SchoolType != null)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolType):</span>
+                                        <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolType)</span>
+                                    </li>
+                                }
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Address):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.Address)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolAdministrationType):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolAdministrationType)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolLanguage):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolLanguage)</span>
+                                </li>
+                                @*<li class="list-group-item">
+                                <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Enrolled):</span>
+                                <span class="">Male: @Html.DisplayFor(model => model.InfoPanel!.EnrolledFemale),  </span>
+                                <span class="">Female: @Html.DisplayFor(model => model.InfoPanel!.EnrolledMale), </span>
+                                <span class="">Total: @Html.DisplayFor(model => model.InfoPanel!.Enrolled)</span>
+                                </li>*@
+                                <li class="list-group-item">
+                                <span class="fw-bold">Assessed:</span>
+                                    <span class="">Male: @Html.DisplayFor(model => model.InfoPanel!.AssessedMale),</span>
+                                    <span class="">Female: @Html.DisplayFor(model => model.InfoPanel!.AssessedFemale),</span>
+                                    <span class="">Total: @Html.DisplayFor(model => model.InfoPanel!.Assessed)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mt-0 pt-0 mt-md-0 text-lg-end text-md-end ps-lg-0 ps-md-0 ">
+                            <ul class="list-unstyled text-dark">
+                                @if (Model.InfoPanel!.LocationParent != null)
+                                {
+                                    @foreach (var item in Model.InfoPanel.LocationParent)
+                                    {
+                                        <li class="list-group-item">
+                                            <span class="fw-bold">
+                                                @item.LocationType:
+                                            </span>
+                                            <span>
+                                                @item.LocationName
+                                            </span>
+                                        </li>
+                                    }
+                                }
+                                @if (Model.InfoPanel.OrganizationTypeId == 6)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="fw-bold">
+                                            @Html.DisplayNameFor(model => model.InfoPanel!.Zone):
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.InfoPanel!.Zone)
+                                        </span>
+
+                                    </li>
+                                }
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolLocation):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolLocation)</span>
+                                </li>
+                                @if (Model.InfoPanel.Latitude != null)
+                                {
+                                    <li class="list-group-item">
+                                        <a href="https://www.google.com/maps?q=@Model.InfoPanel.Latitude,@Model.InfoPanel.Longitude" class="btn btn-default p-0 m-0" target="_blank">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                            Map
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-calendar3 text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolAcademicYear):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.AcademicYear)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-mortarboard-fill text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.GradeLevel):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.GradeLevel)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-calendar-week-fill text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.AssessmentTerm):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.AssessmentTerm)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-calendar2-check text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.AssessmentWeek):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.AssessmentWeek)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--infopanel section end-->
+<!--footer buttons start-->
+<div class="row pt-0 mb-3 align-content-end text-end">
+    <div class="col-sm-12">
+        <a asp-action="Index" asp-controller="@ViewBag.ParentController" asp-route-id="@ViewBag.ParentId" class="btn btn-outline-secondary me-1"><i class="bi bi-arrow-return-left"></i> Back</a>
+        @if (@*ViewBag.Closed*@ true == true)
+        {
+            <a policy="RequireEditRole" asp-action="Edit" asp-route-id="@Model.InfoPanel.GradebookAssessmentId" class="btn btn-primary"><i class="bi-pencil-square"></i> Edit</a>
+        }
+    </div>
+</div>
+<!--footer buttons end-->
+<!--assessment performance content section start-->
+<section>
+    <div class="row mb-0">
+        <div class="col mb-0">
+            <div class="card">
+                <!--content header start-->
+                <div class="card-header text-dark d-flex bg-secondary-subtle justify-content-lg-between">
+                    <h5 class="card-title mb-1 text-dark ">
+                        Performance level descriptor
+                    </h5>
+                    <!--create button start-->
+                    @*<div class="btn-group btn-group-sm mb-2 text-end" role="group" aria-label="creategroup">
+                    <a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                    <i class="bi bi-plus-circle"></i>
+                    Create New
+                    </a>
+                    </div>*@
+                    <!--create button end-->
+                </div>
+                <!--content header end-->
+                <!--conent start-->
+                <div class="card-body p-0">
+                    <!--toolbar start-->
+                    <div class="row mx-0 mb-0 pt-2 px-3 bg-secondary-subtle border-secondary-subtle border-bottom border-1">
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                            <div id="toolbar1" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <!--create button start-->
+                                <div class="btn-group btn-group-sm mb-2" role="group" aria-label="creategroup">
+                                    @*<a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="bi bi-plus-circle"></i>
+                                    Create New
+                                    </a>*@
+                                </div>
+                                <!--create button end-->
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                        <!--datatable search start-->
+                        <div class="input-group input-group-sm d-print-none pb-2">
+                        <span class="input-group-text" id="search"><i class="bi bi-search" aria-hidden="true"></i></span>
+                        <input id="searchbox" type="text" class="form-control" placeholder='Search' aria-describedby="search">
+                        </div>
+                        <!--datatable search end-->
+                        </div>*@
+                    </div>
+                    <!--toolbar end-->
+                    <div class="table-responsive col-sm-12">
+                    </div>
+                </div>
+                <!--content end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer1">
+                    <!--table start-->
+                    <table id="datatable1" class="card-body table table-hover table-striped display responsive no-wrap mb-0 pb-0 w-100 dataTables_wrapper dt-bootstrap5 no-footer">
+                        <!--table head start-->
+                        <thead>
+                            <tr>
+                                <th data-priority="8">
+                                    Grade Level
+                                </th>
+                                <th data-priority="7">
+                                    Term
+                                </th>
+                                <th data-priority="6">
+                                    Week
+                                </th>
+                                <th data-priority="2">
+                                    Performance Level
+                                </th>
+                                <th data-priority="1">
+                                    Score
+                                </th>
+                                <th data-priority="5">
+                                    Sex
+                                </th>
+                                <th data-priority="4">
+                                    Assessed
+                                </th>
+                                <th data-priority="3">
+                                    Percentage
+                                </th>
+                            </tr>
+                        </thead>
+                        <!--table head end-->
+                        <!--table body start-->
+                        <tbody>
+                            @foreach (var item in Model.AssessmentPerformanceLevels!)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GradeLevel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentTerm)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentWeek)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PerformanceLevel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Score)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sex)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Assessed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Percent) %
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <!--table body end-->
+                    </table>
+                    <!--table end-->
+                </div>
+                <!--content footer end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                </div>
+                <!--content footer end-->
+            </div>
+        </div>
+    </div>
+</section>
+<!--assessment performance content section end-->
+<!--assessment results content section start-->
+<section>
+    <div class="row mb-0">
+        <div class="col mb-0">
+            <div class="card">
+                <!--content header start-->
+                <div class="card-header text-dark d-flex bg-secondary-subtle justify-content-lg-between">
+                    <h5 class="card-title mb-1 text-dark">
+                        Total number of learners with correct answers
+                    </h5>
+                    <!--create button start-->
+                    @*<div class="btn-group btn-group-sm mb-2 text-end" role="group" aria-label="creategroup">
+                    <a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                    <i class="bi bi-plus-circle"></i>
+                    Create New
+                    </a>
+                    </div>*@
+                    <!--create button end-->
+                </div>
+                <!--content header end-->
+                <!--conent start-->
+                <div class="card-body p-0">
+                    <!--toolbar start-->
+                    <div class="row mx-0 mb-0 pt-2 px-3 bg-secondary-subtle border-secondary-subtle border-bottom border-1">
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                            <div id="toolbar2" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <!--create button start-->
+                                <div class="btn-group btn-group-sm mb-2" role="group" aria-label="creategroup">
+                                    @*<a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="bi bi-plus-circle"></i>
+                                    Create New
+                                    </a>*@
+                                </div>
+                                <!--create button end-->
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                        <!--datatable search start-->
+                        <div class="input-group input-group-sm d-print-none pb-2">
+                        <span class="input-group-text" id="search"><i class="bi bi-search" aria-hidden="true"></i></span>
+                        <input id="searchbox" type="text" class="form-control" placeholder='Search' aria-describedby="search">
+                        </div>
+                        <!--datatable search end-->
+                        </div>*@
+                    </div>
+                    <!--toolbar end-->
+                    <div class="table-responsive col-sm-12">
+                    </div>
+                </div>
+                <!--content end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer2">
+                    <!--table start-->
+                    <table id="datatable2" class="card-body table table-hover table-striped display responsive no-wrap mb-0 pb-0 w-100 dataTables_wrapper dt-bootstrap5 no-footer">
+                        <!--table head start-->
+                        <thead>
+                            <tr>
+                                <th data-priority="6">
+                                    Grade Level
+                                </th>
+                                <th data-priority="4">
+                                    Term
+                                </th>
+                                <th data-priority="4">
+                                    Week
+                                </th>
+                                <th data-priority="3">
+                                    Category
+                                </th>
+                                <th data-priority="2">
+                                    Assessment Item
+                                </th>
+                                <th data-priority="1">
+                                    Learners with correct answers
+                                    @*<span class="d-none d-sm-inline">Learners with correct answers</span>
+                                    <span class="d-inline d-sm-none">Responses</span>*@
+                                </th>
+                            </tr>
+                        </thead>
+                        <!--table head end-->
+                        <!--table body start-->
+                        <tbody>
+                            @foreach (var item in Model.AssessmentResults!)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GradeLevel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentTerm)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentWeek)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentCategory)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssessmentItemText)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Score)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <!--table body end-->
+                    </table>
+                    <!--table end-->
+                </div>
+                <!--content footer end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                </div>
+                <!--content footer end-->
+            </div>
+        </div>
+    </div>
+</section>
+<!--assessment results content section end-->
+<!--content end-->
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_ListStylesPartial");
+    }
+}
+@section Scripts {
+    @{
+        //await Html.RenderPartialAsync("_ListScriptsPartial");
+    }
+    <script src="~/lib/datatables/datatables.min.js" asp-append-version="true"></script>
+    <script>
+        // DOM ready event listener
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set DataTables options
+            let dataTableOptions1 = getOptions(1);
+            let dataTableOptions2 = getOptions(2);
+
+            // Initialize DataTables
+            let table1 = new DataTable('#datatable1', dataTableOptions1);
+            let table2 = new DataTable('#datatable2', dataTableOptions2);
+
+            // Call post initialization function
+            postInitialization(table1, '#toolbar1', '#dtfooter1', '#datatable-footer1');
+            postInitialization(table2, '#toolbar2', '#dtfooter2', '#datatable-footer2');
+
+            // Add event listener to resize table on window resize
+            window.addEventListener('resize', function () {
+                table1.columns.adjust().draw();
+                table2.columns.adjust().draw();
+            });
+        });
+
+        // Generate DataTables options
+        function getOptions(option) {
+            return {
+                order: [],
+                lengthChange: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                processing: true,
+                searchHighlight: true,
+                orderClasses: true,
+                pagingType: "full",
+                pageLength: 10,
+                filter: true,
+                orderMulti: false,
+                paging: false,
+                ordering: true,
+                info: true,
+                searching: false,
+                responsive: true,
+                autoWidth: false,
+                dom: "tr<'#dtfooter" + option + ".card-footer table_bg pt-2 pb-3 bg-secondary-subtle'"
+                    //+ "<'row'"
+                    //+ "<'col-sm-12 col-md-6 col-form-label 'l>"
+                    //+ "<'col-sm-12 col-md-6 justify-content-end'Bp>"
+                    //+ ">"
+                    + "<'row'<'col-sm-12'lBpi>"
+                    + ">" + ">",
+                //columnDefs: [{ targets: [-1], width: '100px' }],
+                buttons: getButtonOptions(),
+                //language: getLanguageOptions(),
+                initComplete: function (settings, json) { },
+                //drawCallback: function () {
+                //    let pageLinks = document.querySelectorAll('#datatable_paginate .page-link');
+                //    pageLinks.forEach(function (link) {
+                //        link.classList.remove('page-link');
+                //        link.classList.add('btn', 'btn-outline-secondary', 'me-1', 'btn-sm');
+                //    });
+                //}
+            };
+        }
+
+        // Generate Button options
+        function getButtonOptions() {
+            return {
+                dom: { button: { className: 'btn btn-outline-secondary btn-sm mb-2' } },
+                buttons: [
+                    getCopyButton(),
+                    getExportButton(),
+                    //getPrintButton()
+                ]
+            };
+        }
+
+        // Generate Copy Button
+        function getCopyButton() {
+            return { extend: 'copyHtml5', text: '<i class="bi bi-clipboard"></i> Copy', titleAttr: 'Copy' };
+        }
+
+        // Generate Export Button
+        function getExportButton() {
+            return {
+                extend: 'excelHtml5',
+                text: '<i class="bi bi-box-arrow-up-right"></i> Export',
+                titleAttr: 'Export',
+                charset: 'UTF-16LE',
+                bom: true,
+                fieldSeparator: ',',
+                fieldBoundary: '"',
+                exportOptions: { columns: ':not(:last-child)' },
+                filename: function () { return generateFileName(); }
+            };
+        }
+
+        // Generate Print Button
+        function getPrintButton() {
+            return {
+                extend: 'print',
+                text: '<i class="bi bi-printer"></i> Print',
+                titleAttr: 'Print',
+                title: '',
+                autoPrint: true,
+                exportOptions: { columns: ':not(:last-child)', stripHtml: true, stripNewlines: true },
+                customize: function (window) { customizePrintWindow(window); }
+            };
+        }
+
+        // Generate Language options
+        function getLanguageOptions() {
+            return {
+                paginate: {
+                    "first": "<i class='bi bi-chevron-double-left'></i>",
+                    "last": "<i class='bi bi-chevron-double-right'></i>",
+                    "next": "<i class='bi bi-chevron-right'></i>",
+                    "previous": "<i class='bi bi-chevron-left'></i>"
+                }
+            };
+        }
+
+        // Generate filename for export
+        function generateFileName() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+            var datepart = ((year * 100 + month + 1) * 100 + day) + "_" + (hour * 100 + minutes);
+            return document.title + "_" + datepart;
+        }
+
+        // Customize print window
+        function customizePrintWindow(window) {
+            window.document.body.style.fontSize = '10pt';
+            window.document.body.style.paddingTop = '0px';
+
+            // Get all tables in the document
+            let tables = window.document.body.querySelectorAll('table');
+            tables.forEach(function (table) {
+                table.classList.add('compact', 'table-bordered');
+                table.style.fontSize = 'inherit';
+            });
+
+            // Fetch the HTML content
+            let heading = document.querySelector('.heading-panel').innerHTML;
+            let panel = document.querySelector('.info-panel').innerHTML;
+
+            // Create a new div and append the heading and panel
+            let prependDiv = document.createElement('div');
+            prependDiv.innerHTML = (window ? heading + '<br>' + panel : heading);
+
+            // Insert the new div at the beginning of the body
+            window.document.body.insertBefore(prependDiv, window.document.body.firstChild);
+
+            // Fetch the info and create a new div
+            let info = document.querySelector('.dataTables_info').textContent;
+            let appendDiv = document.createElement('div');
+            appendDiv.innerHTML = info + '<br>' + '@User.Identity!.Name - @DateTime.Now.ToShortDateString()';
+
+            // Append the new div to the body
+            window.document.body.appendChild(appendDiv);
+        }
+
+        // Post initialization actions
+        function postInitialization(table, toolbarId, dtfooterId, datatableFooterId) {
+            table.buttons(0, null).container().appendTo(toolbarId);
+            table.columns.adjust().draw();
+
+            // Filter table
+            //let searchbox = document.getElementById('searchbox');
+            //searchbox.addEventListener('keyup', function () {
+            //    table.search(this.value).draw();
+            //});
+
+            // Style modifications
+            $.fn.dataTable.ext.classes.sPageButton = 'page-item btn-light';
+            $.fn.DataTable.ext.pager.numbers_length = 5;
+            $.fn.dataTable.ext.classes.sPaging = ' p-2';
+
+            // Move footer to bottom
+            let dtfooter = document.querySelector(dtfooterId);
+            let datatableFooter = document.querySelector(datatableFooterId);
+
+            datatableFooter.appendChild(dtfooter);
+        }
+
+    </script>
+}
+

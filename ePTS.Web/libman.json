@@ -185,7 +185,8 @@
         "font/bootstrap-icons.css",
         "font/bootstrap-icons.json",
         "font/bootstrap-icons.min.css",
-        "font/bootstrap-icons.scss"
+        "font/bootstrap-icons.scss",
+        "README.md"
       ]
     },
     {
@@ -218,6 +219,151 @@
         "dist/apexcharts.min.js",
         "LICENSE"
       ]
+    },
+    {
+      "library": "vanillajs-datepicker@1.3.3",
+      "destination": "wwwroot/lib/vanillajs-datepicker/",
+      "files": [
+        "dist/css/datepicker-bs5.min.css",
+        "dist/css/datepicker-bs5.css",
+        "dist/css/datepicker.min.css",
+        "dist/css/datepicker.css",
+        "dist/js/datepicker.min.js",
+        "dist/js/datepicker.js",
+        "dist/js/datepicker-full.js",
+        "dist/js/datepicker-full.min.js",
+        "LICENSE"
+      ]
+    },
+    {
+      "library": "select2-bootstrap-5-theme@1.3.0",
+      "destination": "wwwroot/lib/select2-bootstrap-5-theme/",
+      "files": [
+        "dist/select2-bootstrap-5-theme.css",
+        "dist/select2-bootstrap-5-theme.min.css",
+        "LICENSE"
+      ]
+    },
+    {
+      "library": "select2@4.1.0-rc.0",
+      "destination": "wwwroot/lib/select2/",
+      "files": [
+        "dist/css/select2.css",
+        "dist/css/select2.min.css",
+        "dist/js/select2.full.js",
+        "dist/js/select2.full.min.js",
+        "dist/js/select2.min.js",
+        "dist/js/select2.js",
+        "LICENSE.md"
+      ]
+    },
+    {
+      "library": "jstree@3.3.15",
+      "destination": "wwwroot/lib/jstree/",
+      "files": [
+        "dist/jstree.min.js",
+        "dist/jstree.js",
+        "dist/themes/default/32px.png",
+        "dist/themes/default/40px.png",
+        "dist/themes/default/style.css",
+        "dist/themes/default/style.min.css",
+        "dist/themes/default/throbber.gif",
+        "dist/themes/default-dark/32px.png",
+        "dist/themes/default-dark/40px.png",
+        "dist/themes/default-dark/style.css",
+        "dist/themes/default-dark/style.min.css",
+        "dist/themes/default-dark/throbber.gif",
+        "LICENSE-MIT"
+      ]
+    },
+    {
+      "library": "bootstrap-datepicker@1.10.0",
+      "destination": "wwwroot/lib/bootstrap-datepicker/",
+      "files": [
+        "LICENSE",
+        "dist/css/bootstrap-datepicker.standalone.min.css",
+        "dist/css/bootstrap-datepicker.standalone.css.map",
+        "dist/css/bootstrap-datepicker.standalone.css",
+        "dist/css/bootstrap-datepicker.min.css",
+        "dist/css/bootstrap-datepicker.css.map",
+        "dist/css/bootstrap-datepicker.css",
+        "dist/js/bootstrap-datepicker.min.js",
+        "dist/js/bootstrap-datepicker.js"
+      ]
     }
+  ,
+{
+  "provider": "jsdelivr",
+  "library": "tom-select@2.2.2",
+  "destination": "wwwroot/lib/tom-select/",
+  "files": [
+    "dist/css/tom-select.bootstrap5.css",
+    "dist/css/tom-select.bootstrap5.css.map",
+    "dist/css/tom-select.bootstrap5.min.css",
+    "dist/css/tom-select.bootstrap5.min.css.map",
+    "dist/css/tom-select.css",
+    "dist/css/tom-select.css.map",
+    "dist/css/tom-select.default.css",
+    "dist/css/tom-select.default.css.map",
+    "dist/css/tom-select.default.min.css",
+    "dist/css/tom-select.default.min.css.map",
+    "dist/css/tom-select.min.css",
+    "dist/css/tom-select.min.css.map",
+    "dist/js/plugins/no_backspace_delete.js",
+    "dist/js/plugins/no_backspace_delete.js.map",
+    "dist/js/plugins/no_backspace_delete.min.js",
+    "dist/js/plugins/no_active_items.min.js",
+    "dist/js/plugins/no_active_items.js.map",
+    "dist/js/plugins/no_active_items.js",
+    "dist/js/plugins/input_autogrow.min.js",
+    "dist/js/plugins/input_autogrow.js.map",
+    "dist/js/plugins/input_autogrow.js",
+    "dist/js/plugins/dropdown_input.min.js",
+    "dist/js/plugins/dropdown_input.js.map",
+    "dist/js/plugins/dropdown_input.js",
+    "dist/js/plugins/dropdown_header.min.js",
+    "dist/js/plugins/dropdown_header.js.map",
+    "dist/js/plugins/dropdown_header.js",
+    "dist/js/plugins/drag_drop.min.js",
+    "dist/js/plugins/drag_drop.js.map",
+    "dist/js/plugins/drag_drop.js",
+    "dist/js/plugins/clear_button.min.js",
+    "dist/js/plugins/clear_button.js.map",
+    "dist/js/plugins/clear_button.js",
+    "dist/js/plugins/checkbox_options.min.js",
+    "dist/js/plugins/checkbox_options.js.map",
+    "dist/js/plugins/checkbox_options.js",
+    "dist/js/plugins/change_listener.min.js",
+    "dist/js/plugins/change_listener.js.map",
+    "dist/js/plugins/change_listener.js",
+    "dist/js/plugins/caret_position.js",
+    "dist/js/plugins/caret_position.js.map",
+    "dist/js/plugins/caret_position.min.js",
+    "dist/js/tom-select.popular.min.js.map",
+    "dist/js/tom-select.popular.min.js",
+    "dist/js/tom-select.popular.js.map",
+    "dist/js/tom-select.popular.js",
+    "dist/js/tom-select.complete.min.js.map",
+    "dist/js/tom-select.complete.min.js",
+    "dist/js/tom-select.complete.js.map",
+    "dist/js/tom-select.complete.js",
+    "dist/js/tom-select.base.min.js.map",
+    "dist/js/tom-select.base.min.js",
+    "dist/js/tom-select.base.js.map",
+    "dist/js/tom-select.base.js",
+    "dist/js/plugins/optgroup_columns.js",
+    "dist/js/plugins/optgroup_columns.js.map",
+    "dist/js/plugins/optgroup_columns.min.js",
+    "dist/js/plugins/remove_button.js",
+    "dist/js/plugins/remove_button.js.map",
+    "dist/js/plugins/remove_button.min.js",
+    "dist/js/plugins/restore_on_backspace.js",
+    "dist/js/plugins/restore_on_backspace.js.map",
+    "dist/js/plugins/restore_on_backspace.min.js",
+    "dist/js/plugins/virtual_scroll.js",
+    "dist/js/plugins/virtual_scroll.js.map",
+    "dist/js/plugins/virtual_scroll.min.js"
   ]
+}
+]
 }

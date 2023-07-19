@@ -1,0 +1,86 @@
+﻿@model ePTS.Models.ViewModels.ApplicationUsersResetPasswordViewModel
+
+@{
+    ViewData["Title"] = "Reset Password";
+}
+
+<h1>Reset</h1>
+
+<h4>Reset Password</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Reset" id="main-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="UserName" />
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" autocomplete="off" readonly />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="off" readonly />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <!-- button group start -->
+            <div class="form-group text-right mt-5">
+                <a id="cancelbutton" class="btn btn-secondary mr-2" asp-action="Index">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+                <button id="submitbutton" type="submit" value="Reset" class="btn btn-primary rbutton">
+                    <span id="spinner" class="d-none spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <i class="bi bi-check2"></i> Reset
+                </button>
+            </div>
+            <!-- button group end -->
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    $(document).ready(function(){
+        // Disables Submit button after one click if form is valid
+        // sets "loading..." button styles
+        var validator = $('#main-form').validate({ /* settings */ });
+        $('#submitbutton')
+            .on('click', function (e) {
+                // prevents default submit
+                e.preventDefault();
+
+                var form = $('#main-form');
+                if (form.valid()) {
+                    // activates button 'loading..' style and disables submit button after one click
+                    $('#spinner').removeClass('d-none');
+                    $('#submitbutton').addClass('disabled');
+                    // disable cancel button after submit
+                    $('#cancelbutton').addClass('disabled');
+                    // submit form
+                    form.submit();
+                }
+                else {
+                    // if form is valid submits, else focus to invalid fields
+                    validator.focusInvalid();
+                }
+            });
+    });
+</script>
+}

@@ -1,0 +1,199 @@
+﻿@model ePTS.Models.ViewModels.ApplicationUsersEditViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h1>Edit</h1>
+
+<h4>Edit User</h4>
+<hr />
+<div class="row">
+    <form asp-action="Edit" id="main-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="OrganizationIdInitialValue" value="@ViewBag.OrganizationId" />
+        @*<input type="hidden" name="OrganizationsInitialValue" value="@Model.Organizations" />*@
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-group required">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" autocomplete="off" tabindex="1" required />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" tabindex="2" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <label asp-for="RoleId" class="control-label"></label>
+                    <select asp-for="RoleId" class="form-control custom-select required" tabindex="3" asp-items="ViewBag.RoleId">
+                        <option disabled selected></option>
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label asp-for="LockoutEnabled" class="form-check-label"></label>
+                    <input asp-for="LockoutEnabled" class="form-check-input" tabindex="4" />
+                    <span asp-validation-for="LockoutEnabled" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3" asp-enabled="OrganizationId">
+            <div class="card-header">
+                Organization
+            </div>
+            <div class="card-body pb-2">
+                <!--fk tree start-->
+                <div class="input-group required input-group-sm">
+                    <input type="text" id="tree-search" autocomplete="off" placeholder="Search" class="form-control search-input" tabindex="5" value="" />
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+                <small><div id="collapse" class="btn btn-outline-secondary btn-sm me-1"><i class="bi bi-dash"></i> collapse</div> <div id="expand" class="btn btn-outline-secondary btn-sm"><i class="bi bi-plus"></i> expand</div></small>
+                <div id="tree-container" class="px-3 py-1">
+                    <div id="tree" class="mb-5"></div>
+                </div>
+                <input asp-for="OrganizationId" required type="hidden" />
+                <div class="border-top pt-1">
+                    <span>Selected organization: <span id="SelectedOrganizationId"><span class="text-muted">none selected</span></span></span>
+                </div>
+                <span asp-validation-for="OrganizationId" class="text-danger"></span>
+                <!--fk tree end-->
+            </div>
+        </div>
+
+        <!-- button group start -->
+        <div class="form-group text-right mt-5">
+            <a id="cancelbutton" class="btn btn-secondary mr-2" asp-action="Index">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+            <button id="submitbutton" type="submit" value="Save" class="btn btn-primary rbutton">
+                <span id="spinner" class="d-none spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i class="bi bi-check2"></i> Save
+            </button>
+        </div>
+        <!-- button group end -->
+
+    </form>
+</div>
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_EditStylesPartial");
+    }
+}
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    await Html.RenderPartialAsync("_EditScriptsPartial");
+}
+<script>
+    $(document).ready(function(){
+            // *** FOR JSTREE ***
+            // Allows JQuery Validator to validate input hidden fields.
+            // The selected Organization in the JStree plugin is a hidden input field
+            // that its value gets updated on JStree change event.
+            // This validates the selection of the Organization in the JStree on submit
+            $("#main-form").data("validator").settings.ignore = "";
+
+            // Initialize and load the JStree plugin, loading the Organization hierarchy structure
+            // from the JSON request. The ['search'] plugin is enabled.
+            $('#tree').jstree({
+                'core': {
+                    'data': {
+                        "url": "/Requests/GetOrganizationTree/?id=@ViewBag.ParentOrganizationId",
+                        "dataType": "json"
+                    },
+                    "check_callback": false,
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'multiple': false
+                },
+                "search": {
+                    "case_sensitive": false,
+                    "show_only_matches": true,
+                    "show_only_matches_children": true
+                },
+                "plugins": ["search"]
+            });
+
+            // Expands or Collapses the JStree
+            var instance = $('#tree').jstree(true);
+            $("#collapse").on("click", function () {
+                instance.close_all();
+            });
+
+            $("#expand").on("click", function () {
+                instance.open_all();
+            });
+
+            // JStree Search on keyup
+            var to = false;
+            $('#tree-search').keyup(function () {
+                if (to) {
+                    clearTimeout(to);
+                }
+                to = setTimeout(function () {
+                    var v = $('#tree-search').val();
+                    $('#tree').jstree(true).search(v);
+                }, 250);
+            });
+
+            // JStree on node select, update hidden input field OrganizationId
+            // and display "You selected: " html.
+            $('#tree').on('changed.jstree', function (e, data) {
+                e.preventDefault();
+                if (data.selected) {
+                    $('#OrganizationId').val(data.selected);
+                    $('#SelectedOrganizationId').html(data.instance.get_selected(true)[0].text);
+                }
+            });
+
+            // If RefOrganizationTypeId = 2 (School),
+            // ViewBag.OrganizationId will no be null.
+            // This will pre-select the OrganizationId
+        @if (ViewBag.OrganizationId != null)
+        {
+            <text>
+                    // JStree loaded Callback - expand and select node
+                    $('#tree').on("ready.jstree", function (e, data) {
+                        data.instance._open_to(['@ViewBag.OrganizationId'], true);
+                        data.instance.select_node(['@ViewBag.OrganizationId'], true);
+                        $('#OrganizationId').val('@ViewBag.OrganizationId');
+                        $('#SelectedOrganizationId').html(data.instance.get_selected(true)[0].text);
+                    });
+            </text>
+        }
+
+        // Disables Submit button after one click if form is valid
+        // sets "loading..." button styles
+        var validator = $('#main-form').validate({ /* settings */ });
+        $('#submitbutton')
+            .on('click', function (e) {
+                // prevents default submit
+                e.preventDefault();
+
+                var form = $('#main-form');
+                if (form.valid()) {
+                    // activates button 'loading..' style and disables submit button after one click
+                    $('#spinner').removeClass('d-none');
+                    $('#submitbutton').addClass('disabled');
+                    // disable cancel button after submit
+                    $('#cancelbutton').addClass('disabled');
+                    // submit form
+                    form.submit();
+                }
+                else {
+                    // if form is valid submits, else focus to invalid fields
+                    validator.focusInvalid();
+                }
+            });
+    });
+</script>
+}

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Analytics -->
+    <partial name="_AnalyticsGoogle" />
+    <!-- Clarity Analytics -->
+    <partial name="_AnalyticsClarity" />
+    <!-- Primary Meta Tags-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="keywords" content="Education Development Center, EDC, Zambia, Zambia MoGE, USAID" />
+    <meta name="robots" content="index, nofollow">
+    <meta name="author" content="Education Development Center">
+
+    <title>@ViewData["Title"] | ePTS Enhanced Performance Tracking System</title>
+
+    <!-- Social Media Tags (provides site information when sharing link through social media i.e.: skype, whatsapp)-->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:description" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:image" content="~/images/thumbnail.png" />
+    <meta property="og:url" content="https://~" />
+    <meta property="og:site_name" content="ePTS Enhanced Performance Tracking System" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="https://~" />
+    <meta name="twitter:creator" content="@@EDCtweets" />
+    <meta name="twitter:title" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="twitter:description" content="ePTS Enhanced Performance Tracking System" />
+    <meta name="twitter:image" content="~/images/thumbnail.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://~" />
+
+    <!-- Author Tag -->
+    <meta name="Education Development Center, Inc." />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <!-- Css Theme + Bootstrap -->
+    <link rel="stylesheet" href="~/lib/theme/custom.css" asp-append-version="true" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" asp-append-version="true" />
+
+    <!-- App css -->
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+    <!-- Loads View Specific Styles -->
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", required: false)
+    }
+</head>
+<!-- Body Start preset light, flat, and bordered theme -->
+<body class="light theme-bordered">
+    <!-- Root Start -->
+    <div id="root">
+        <!-- App Start -->
+        <div class="App">
+            <!-- Sidebar Start -->
+            @*<partial name="_LayoutSidebar" />*@
+            <!-- Sidebar End -->
+            <!-- Main Content Start -->
+            <main role="main" class="main-content">
+                <!-- Nav Start -->
+                <partial name="_LayoutNavbar" />
+                <!-- Nav End -->
+                <!-- Inner Page Content Wrapper Start -->
+                <div id="content" class="container-fluid content-inner slide-in-right">
+                    <!-- View Content Start -->
+                    @RenderBody()
+                    <!-- View Content End -->
+                </div>
+                <!-- Inner Page Content Wrapper End -->
+                @*<!-- Back to Top -->
+                <div class="back-to-top d-print-none">
+                    <a href="#top" class="btn btn-primary btn-lg back-to-top" role="button">
+                        <i class="bi bi-arrow-up-circle-fill"></i>
+                    </a>
+                </div>*@
+                <!-- Footer Component Start -->
+                <partial name="_LayoutFooter" />
+                <!-- Footer Component End -->
+            </main>
+            <!-- Main Content End -->
+        </div>
+        <!-- App End -->
+    </div>
+    <!-- Root End -->
+    <!-- jQuery Script -->
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+    <!-- Bootstrap core Script -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+    <!-- Scrollbar for Sidebar scrolling Script -->
+    <script src="~/lib/smooth-scrollbar/dist/smooth-scrollbar.min.js" asp-append-version="true"></script>
+
+    <!-- App Script -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Loads View Specific Scripts -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+<!-- Body End -->
+</html>

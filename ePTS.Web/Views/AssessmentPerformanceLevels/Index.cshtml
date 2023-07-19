@@ -1,0 +1,200 @@
+﻿@model IEnumerable<ePTS.Entities.Assessments.AssessmentPerformanceLevel>
+
+@{
+    ViewData["Title"] = "AssessmentPerformanceLevel" + " List";
+}
+
+<!--content start-->
+<!--heading section start-->
+<section>
+    <!--breadcrumb start-->
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+
+            </nav>
+        </div>
+    </div>
+    <!--breadcrumb end-->
+    <!--header start-->
+    <div class="row heading-panel">
+        <div class="col">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-0">
+                            AssessmentPerformanceLevel
+                        </h1>
+                        <span class="text-secondary">
+                            List of AssessmentPerformanceLevel
+                        </span>
+                    </div>
+                    <div class="col-auto mt-0 mb-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--header end-->
+</section>
+<!--heading section end-->
+<!--infopanel section start-->
+<section>
+    <div class="row info-panel">
+        <div class="col-sm-12">
+        </div>
+    </div>
+</section>
+<!--infopanel section end-->
+<!--content section start-->
+<section>
+    <div class="row mb-2">
+        <div class="col mb-4">
+            <div class="card">
+                <!--content header start-->
+                <div class="card-header text-dark d-flex bg-secondary-subtle">
+                    <div class="col-12 p-2">
+                        <h5 class="card-title mb-1 text-gray">
+                        </h5>
+                    </div>
+                </div>
+                <!--content header end-->
+                <!--conent start-->
+                <div class="card-body p-0">
+                    <!--toolbar start-->
+                    <div class="row mx-0 mb-0 pt-2 px-3 bg-secondary-subtle border-secondary-subtle border-bottom border-1">
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                            <div id="toolbar" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <!--create button start-->
+                                <div class="btn-group btn-group-sm mb-2" role="group" aria-label="creategroup">
+                                    <a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Create New
+                                    </a>
+                                </div>
+                                <!--create button end-->
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                            <!--datatable search start-->
+                            <div class="input-group input-group-sm d-print-none pb-2">
+                                <span class="input-group-text" id="search"><i class="bi bi-search" aria-hidden="true"></i></span>
+                                <input id="searchbox" type="text" class="form-control" placeholder='Search' aria-describedby="search">
+                            </div>
+                            <!--datatable search end-->
+                        </div>
+                    </div>
+                    <!--toolbar end-->
+                    <div class="table-responsive col-sm-12">
+                    </div>
+                </div>
+                <!--content end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                    <!--table start-->
+                    <table id="datatable" class="card-body table table-hover table-striped display responsive no-wrap mb-0 pb-0 w-100 dataTables_wrapper dt-bootstrap5 no-footer">
+                        <!--table head start-->
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PerformanceLevels)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Score)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Assessed")
+                                </th>
+                                <th>
+                                    Percentage
+                                </th>
+                                <th class="text-end d-print-none">Actions</th>
+                            </tr>
+                        </thead>
+                        <!--table head end-->
+                        <!--table body start-->
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-wrap">
+                                        @Html.DisplayFor(modelItem => item.PerformanceLevels.PerformanceLevel)
+                                    </td>
+                                    <td class="text-wrap">
+                                        @Html.DisplayFor(modelItem => item.Score)
+                                    </td>
+                                    <td class="text-wrap">
+                                        @if (item.RefSexId == 1)
+                                        {
+                                            @Html.DisplayFor(modelItem => item.GradebookAssessments.AssessedFemale)
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.GradebookAssessments.AssessedMale)
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.RefSexId == 1)
+                                        {
+                                            @($"{(item.GradebookAssessments.AssessedMale != 0 ? Math.Round((decimal)item.Score / (decimal)item.GradebookAssessments.AssessedMale * 100, 0) : 0)}%")
+                                        }
+                                        else
+                                        {
+                                            @($"{(item.GradebookAssessments.AssessedFemale != 0 ? Math.Round((decimal)item.Score / (decimal)item.GradebookAssessments.AssessedFemale * 100, 0) : 0)}%")
+                                        }
+
+                                    </td>
+                                    <td class="text-end d-print-none">
+                                        <div class="" role="group" aria-label="Actions">
+                                            <a asp-action="Details" asp-route-id="@item.AssessmentPerformanceLevelId"
+                                               class="btn btn-default p-1 text-gray btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Details">
+                                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                            </a>
+
+                                            <a policy="RequireEditRole" asp-action="Edit" asp-route-id="@item.AssessmentPerformanceLevelId"
+                                               class="btn btn-default p-1 text-secondary btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="bi bi-pencil" aria-hidden="true"></i>
+                                            </a>
+
+                                            <a policy="RequireDeleteRole" asp-action="Delete" asp-route-id="@item.AssessmentPerformanceLevelId"
+                                               class="btn btn-default p-1 text-secondary btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                                            </a>
+                                            @if (ViewBag.NextController != null)
+                                            {
+                                                <a asp-controller="@ViewBag.NextController"
+                                                   asp-action="Index" asp-route-id="@item.AssessmentPerformanceLevelId" class="btn btn-link btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Open">
+                                                    <i class="fas fa-chevron-right fa-sm" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <!--table body end-->
+                    </table>
+                    <!--table end-->
+                </div>
+                <!--content footer end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                </div>
+                <!--content footer end-->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- content section end-->
+<!-- content end-->
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_ListStylesPartial");
+    }
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ListScriptsPartial");
+    }
+}
+

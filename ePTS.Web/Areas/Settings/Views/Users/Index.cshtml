@@ -1,0 +1,214 @@
+﻿@model IEnumerable<ePTS.Models.ViewModels.ApplicationUsersViewModel>
+
+@{
+    ViewData["Title"] = "Users";
+}
+<div class="row">
+    <div class="row heading-panel">
+        <div class="col">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-0">
+                            User Management
+                        </h1>
+                        <span class="text-secondary">
+                            List of users and their roles in the ePTS system
+                        </span>
+                    </div>
+                    <div class="col-auto mt-0 mb-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header text-dark d-flex bg-secondary-subtle p-3">
+                <div class="col-12 p-2">
+                    @*<h5 class="card-title mb-1 text-gray">
+                        
+                    </h5>*@
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="row mx-0 mb-0 pt-2 px-3 bg-secondary-subtle border-secondary-subtle border-bottom border-1">
+                    <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                        <div id="toolbar" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <!--create button start-->
+                            <div class="btn-group btn-group-sm mb-2" role="group" aria-label="creategroup">
+                                <a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="bi bi-plus-circle"></i>
+                                    Create New
+                                </a>
+                            </div>
+                            <!--create button end-->
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                        <!--datatable search start-->
+                        <div class="input-group input-group-sm d-print-none pb-2">
+                            <span class="input-group-text" id="search"><i class="bi bi-search" aria-hidden="true"></i></span>
+                            <input id="searchbox" type="text" class="form-control" placeholder='Search' aria-describedby="search">
+                        </div>
+                        <!--datatable search end-->
+                    </div>
+                </div>
+                <!--toolbar end-->
+                <div class="table-responsive col-sm-12">
+                </div>
+                <div class="dataTables_wrapper" id="datatable-footer">
+                    <table id="datatable" class="table table-striped table-hover table-responsive card-body display responsive no-wrap mb-0 pb-0 w-100 dataTables_wrapper dt-bootstrap5 no-footer">
+                        <thead class="border-top">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Organization)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th class="">
+                                    @Html.DisplayNameFor(model => model.Role)
+                                </th>
+                                <th class="">
+                                    @Html.DisplayNameFor(model => model.AccessFailedCount)
+                                </th>
+                                <th class="">
+                                    @Html.DisplayNameFor(model => model.LockoutEnabled)
+                                </th>
+                                <th class="">
+                                    Locked out
+                                </th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-wrap">
+                                        @Html.DisplayFor(modelItem => item.Organization) (@Html.DisplayFor(modelItem => item.OrganizationType))
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td class="">
+                                        @Html.DisplayFor(modelItem => item.Role)
+                                    </td>
+                                    <td class="">
+                                        @Html.DisplayFor(modelItem => item.AccessFailedCount)
+                                    </td>
+                                    <td class="">
+                                        @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                                        @if (item.LockoutEnabled == true)
+                                        {
+                                            @string.Format("True")
+                                        }
+                                        else
+                                        {
+                                            @string.Format("False")
+                                        }
+                                    </td>
+                                    <td class="">
+
+                                        @if (item.LockoutEnd != null)
+                                        {
+
+                                            if (item.LockoutEnd.Value.UtcDateTime > DateTime.Now)
+                                            {
+                                                @string.Format("Locked until: ")
+                                                @Html.DisplayFor(modelItem => item.LockoutEnd.Value.UtcDateTime)
+                                            }
+                                        }
+                                    </td>
+                                    <td class="text-end d-print-none">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                            @if (item.LockoutEnd != null)
+                                            {
+                                                if (item.LockoutEnd.Value.UtcDateTime > DateTime.Now)
+                                                {
+                                                    <a asp-action="Unlock" asp-route-id="@item.Id"
+                                                       class="btn btn-dark-100 btn-sm d-print-none btn-action"
+                                                       data-container="body" data-toggle="tooltip" data-placement="top" title="Unlock User Account" data-original-title='Unlock User Account'>
+                                                        <i class="bi bi-unlock"></i>
+                                                    </a>
+                                                }
+
+                                            }
+                                            <a asp-action="Details" asp-route-id="@item.Id"
+                                               class="btn btn-dark-100 btn-sm d-print-none btn-action"
+                                               data-container="body" data-toggle="tooltip" data-placement="top" title="Details" data-original-title='Details'>
+                                                <i class="bi bi-info-circle-fill"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@item.Id"
+                                               class="btn btn-dark-100 btn-sm d-print-none btn-action"
+                                               data-container="body" data-toggle="tooltip" data-placement="top" title="Edit" data-original-title='Edit'>
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id"
+                                               class="btn btn-dark-100 btn-sm d-print-none btn-action"
+                                               data-container="body" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title='Delete'>
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="dataTables_wrapper" id="datatable-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_ListStylesPartial");
+    }
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ListScriptsPartial");
+    }
+    @*<script src="~/lib/datatables/datatables.min.js" asp-append-version="true"></script>*@
+    <script>
+        $(document).ready(function () {
+            //$('#datatable').DataTable({
+            //    "paging": true,
+            //    "ordering": true,
+            //    "info": true,
+            //    "responsive": true,
+            //    "autoWidth": false,
+            //    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            //    //order: [
+            //    //    [4, 'asc'],
+            //    //    [3, 'asc'],
+            //    //    [2, 'asc'],
+            //    //    [1, 'asc']
+            //    //],
+            //    //rowGroup: {
+            //    //    dataSrc: [4, 3, 2, 1]
+            //    //},
+            //    //columnDefs: [
+            //    //    {
+            //    //        targets: [1, 2, 3, 4],
+            //    //        visible: false
+            //    //    }
+            //    //]
+            //});
+        });
+
+    </script>
+}

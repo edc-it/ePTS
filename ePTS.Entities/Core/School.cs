@@ -23,31 +23,31 @@ namespace ePTS.Entities.Core
         public string? SchoolCode { get; set; }
 
         // Represents the type of the school.
-        [Display(Name = "School Type", Prompt = "Select the school type")]
+        [Display(Name = "Type", Prompt = "Select the school type")]
         [Comment("A reference to the type of school, such as primary, secondary, or vocational. This is a foreign key that references the SchoolType table")]
         [Column(Order = 13)]
         public int? RefSchoolTypeId { get; set; }
 
         // Represents the location of the school.
-        [Display(Name = "School Location", Prompt = "Select the school location")]
+        [Display(Name = "Location", Prompt = "Select the school location")]
         [Comment("A reference to the location of the school, such as rural or urban. This is a foreign key that references the SchoolLocation table")]
         [Column(Order = 14)]
         public int? RefSchoolLocationId { get; set; }
 
         // Represents the administration type of the school.
-        [Display(Name = "School Administration Type", Prompt = "Select the school administration type")]
+        [Display(Name = "Administration Type", Prompt = "Select the school administration type")]
         [Comment("A reference to the type of administration for the school, such as private or public. This is a foreign key that references the SchoolAdministrationType table")]
         [Column(Order = 15)]
         public int? RefSchoolAdministrationTypeId { get; set; }
 
         // Represents the language of instruction for the school.
-        [Display(Name = "School Language", Prompt = "Select the school language")]
+        [Display(Name = "Language", Prompt = "Select the school language")]
         [Comment("A reference to the language of instruction for the school. This is a foreign key that references the SchoolLanguage table")]
         [Column(Order = 16)]
         public int? RefSchoolLanguageId { get; set; }
 
         // Represents the status of the school.
-        [Display(Name = "School Status", Prompt = "Select the school status")]
+        [Display(Name = "Status", Prompt = "Select the school status")]
         [Comment("A reference to the status of the school, such as active or inactive. This is a foreign key that references the SchoolStatus table")]
         [Column(Order = 17)]
         public int? RefSchoolStatusId { get; set; }

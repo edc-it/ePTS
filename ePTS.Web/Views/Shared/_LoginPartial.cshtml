@@ -6,61 +6,27 @@
 <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="me-0 me-xl-2">
+        <li class="me-2 me-xl-2">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="btn btn-primary btn-sm d-flex gap-2 align-items-center">
                     <i class="bi bi-box-arrow-in-right"></i> Logout
                 </button>
             </form>
         </li>
-        <li class="nav-item dropdown">
-            <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="caption me-3 d-none d-md-block ">
-                    <h6 class="mb-0 caption-title">@UserManager.GetUserAsync(User).Result?.UserName!</h6>
-                    @*<p class="mb-0 caption-sub-title">Role</p>*@
-                </div>
-                <i class="bi bi-gear"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="">Profile</a></li>
-                <li><a class="dropdown-item" href="">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
-                @*<li><a class="dropdown-item" href="">Logout</a></li>*@
-            </ul>
+        <li>
+            <div class="caption me-3 d-none d-md-block ">
+                <h6 class="mb-0 caption-title">@UserManager.GetUserAsync(User).Result?.UserName!</h6>
+                @*<p class="mb-0 caption-sub-title">Role</p>*@
+            </div>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            @*<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>*@
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
 </ul>
-
-
-@*<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
-*@

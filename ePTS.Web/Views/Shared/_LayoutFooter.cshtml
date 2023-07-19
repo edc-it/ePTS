@@ -1,18 +1,14 @@
 ﻿<footer class="footer">
     <div class="footer-body">
-        <ul class="left-panel list-inline mb-0 p-0">
-            <li class="list-inline-item d-print-none">
-                <a href="">Privacy Policy</a>
-            </li>
-            <li class="list-inline-item d-print-none">
-                <a href="">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">
-                © @DateTime.Now.Year Enhanced Performance Tracking System (ePTS)
-            </li>
-            <li class="list-inline-item">
-                <span class="d-md-inline d-block">Made with <i class="bi bi-heart-fill"></i> by <a href="https://edc.org">Education Development Center, Inc</a>.</span>
-            </li>
-        </ul>
+        <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <img height="40px" class="float-start" src="~/images/usaid-logo.png" />
+            </div>
+            <div class="flex-grow-1 ms-3">
+                @*This web application ePTS is made possible by the support of the American People through the United States Agency for International Development (USAID). The contents of this web application are the sole responsibility of Education Development Center, Inc. (EDC) and the Ministry of Education and do not necessarily reflect the views of USAID or the United States Government.*@ © @DateTime.Now.Year Enhanced Performance Tracking System (ePTS). <span class="d-md-inline d-block">Made with <i class="bi bi-heart-fill"></i> by <a href="https://edc.org">Education Development Center, Inc</a>.</span>
+            </div>
+        </div>
+        
+
     </div>
 </footer>

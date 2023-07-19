@@ -44,6 +44,8 @@ namespace ePTS.Entities.Reference
         [Column(Order = 5)]
         public double? MaxPerformanceLevel { get; set; }
 
+        public string? PerformanceLevelText { get; set; }
+
         [Display(Name = "Color", Prompt = "Set the performance level color")]
         [Comment("The color for the performance level")]
         [Column(Order = 6)]

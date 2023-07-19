@@ -1,0 +1,318 @@
+﻿@model ePTS.Models.ViewModels.GradebookEnrollmentSummaryViewModel
+
+@{
+    ViewData["Title"] = "Gradebook Enrollments" + " List";
+}
+
+<!--content start-->
+<!--heading section start-->
+<section>
+    <!--breadcrumb start-->
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                @if (ViewBag.ParentId != null)
+                {
+                    @await Component.InvokeAsync("InfoPanel", Model.InfoPanel)
+                }
+            </nav>
+        </div>
+    </div>
+    <!--breadcrumb end-->
+</section>
+<!--heading section end-->
+<section>
+    <div class="row info-panel mb-0">
+        <div class="col-sm-12">
+            <div class="card mb-3 border">
+                <div class="card-header text-dark">
+                    <h2 class="card-title mb-0 text-dark px-2">
+                        @Html.DisplayFor(model => model.InfoPanel!.OrganizationName)
+                    </h2>
+                    <div class="row justify-content-between pt-0 px-2 mb-1">
+                        <div class="col me-auto">
+                            <p class="card-subtitle mb-3">
+                                @Html.DisplayFor(model => model.InfoPanel!.OrganizationType)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 pb-2 bg-secondary-subtle rounded-bottom">
+                    <div class="row my-0">
+                        <div class="col-md-8 pe-lg-0 pe-md-0 mt-0 mb-1 pt-0">
+                            <ul class="list-unstyled text-dark">
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayFor(model => model.InfoPanel!.OrganizationType):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.OrganizationName)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Code):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.Code)</span>
+                                </li>
+                                @if (Model.InfoPanel!.SchoolType != null)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolType):</span>
+                                        <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolType)</span>
+                                    </li>
+                                }
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Address):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.Address)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolAdministrationType):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolAdministrationType)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolLanguage):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolLanguage)</span>
+                                </li>
+                                @*<li class="list-group-item">
+                                <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.Enrolled):</span>
+                                <span class="">Male: @Html.DisplayFor(model => model.InfoPanel!.EnrolledFemale),  </span>
+                                <span class="">Female: @Html.DisplayFor(model => model.InfoPanel!.EnrolledMale), </span>
+                                <span class="">Total: @Html.DisplayFor(model => model.InfoPanel!.Enrolled)</span>
+                                </li>
+                                <li class="list-group-item">
+                                <span class="fw-bold">Average Assessed:</span>
+                                <span class="">Male: @ViewBag.GradebookAssessmentsAverage.AssessedMale,</span>
+                                <span class="">Female: @ViewBag.GradebookAssessmentsAverage.AssessedFemale,</span>
+                                <span class="">Total: @ViewBag.GradebookAssessmentsAverage.Assessed</span>
+                                </li>*@
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mt-0 pt-0 mt-md-0 text-lg-end text-md-end ps-lg-0 ps-md-0 ">
+                            <ul class="list-unstyled text-dark">
+                                @if (Model.InfoPanel!.LocationParent != null)
+                                {
+                                    @foreach (var item in Model.InfoPanel.LocationParent)
+                                    {
+                                        <li class="list-group-item">
+                                            <span class="fw-bold">
+                                                @item.LocationType:
+                                            </span>
+                                            <span>
+                                                @item.LocationName
+                                            </span>
+                                        </li>
+                                    }
+                                }
+                                @if (Model.InfoPanel.OrganizationTypeId == 6)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="fw-bold">
+                                            @Html.DisplayNameFor(model => model.InfoPanel!.Zone):
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.InfoPanel!.Zone)
+                                        </span>
+
+                                    </li>
+                                }
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolLocation):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.SchoolLocation)</span>
+                                </li>
+                                @if (Model.InfoPanel.Latitude != null)
+                                {
+                                    <li class="list-group-item">
+                                        <a href="https://www.google.com/maps?q=@Model.InfoPanel.Latitude,@Model.InfoPanel.Longitude" class="btn btn-default p-0 m-0" target="_blank">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                            Map
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-calendar3 text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.SchoolAcademicYear):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.AcademicYear)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="bi bi-mortarboard-fill text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.GradeLevel):</span>
+                                    <span class="">@Html.DisplayFor(model => model.InfoPanel!.GradeLevel)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        @*<div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                        <ul class="list-group">
+                        <li class="list-group-item">
+                        <i class="bi bi-calendar-week-fill text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.AssessmentTerm):</span>
+                        <span class="">@Html.DisplayFor(model => model.InfoPanel!.AssessmentTerm)</span>
+                        </li>
+                        </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-1">
+                        <ul class="list-group">
+                        <li class="list-group-item">
+                        <i class="bi bi-calendar2-check text-secondary pe-2"></i><span class="fw-bold">@Html.DisplayNameFor(model => model.InfoPanel!.AssessmentWeek):</span>
+                        <span class="">@Html.DisplayFor(model => model.InfoPanel!.AssessmentWeek)</span>
+                        </li>
+                        </ul>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="row pt-0 mb-3 align-content-end text-end">
+    <div class="col-sm-12">
+        <a asp-action="Index" asp-controller="@ViewBag.ParentController" asp-route-id="@Model.InfoPanel.SchoolAcademicYearId" class="btn btn-outline-secondary me-1"><i class="bi bi-arrow-return-left"></i> Back</a>
+    </div>
+</div>
+
+<!--content section start-->
+<section>
+    <div class="row mb-2">
+        <div class="col mb-4">
+            <div class="card">
+                <!--content header start-->
+                <div class="card-header text-dark d-flex bg-secondary-subtle p-1">
+                    <div class="col-12 p-1">
+                        <h5 class="card-title mb-1 text-gray">
+                        </h5>
+                    </div>
+                </div>
+                <!--content header end-->
+                <!--conent start-->
+                <div class="card-body p-0">
+                    <!--toolbar start-->
+                    <div class="row mx-0 mb-0 pt-2 px-3 bg-secondary-subtle border-secondary-subtle border-bottom border-1">
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                            <div id="toolbar" class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <!--create button start-->
+                                <div class="btn-group btn-group-sm mb-2" role="group" aria-label="creategroup">
+                                    @*<a policy="RequireCreateRole" asp-action="Create" asp-route-id="@ViewBag.ParentId" role="button" class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Create New
+                                    </a>*@
+                                </div>
+                                <!--create button end-->
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                            <!--datatable search start-->
+                            <div class="input-group input-group-sm d-print-none pb-2">
+                                <span class="input-group-text" id="search"><i class="bi bi-search" aria-hidden="true"></i></span>
+                                <input id="searchbox" type="text" class="form-control" placeholder='Search' aria-describedby="search">
+                            </div>
+                            <!--datatable search end-->
+                        </div>
+                    </div>
+                    <!--toolbar end-->
+                    <div class="table-responsive col-sm-12">
+                    </div>
+                </div>
+                <!--content end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                    <!--table start-->
+                    <table id="datatable" class="card-body table table-hover table-striped display responsive no-wrap mb-0 pb-0 w-100 dataTables_wrapper dt-bootstrap5 no-footer">
+                        <!--table head start-->
+                        <thead>
+                            <tr>
+                                <th>
+                                    Gradebook
+                                </th>
+                                <th>
+                                    Participant
+                                </th>
+                                <th>
+                                    Male
+                                </th>
+                                <th>
+                                    Female
+                                </th>
+                                <th>
+                                    Total
+                                    </th>
+                                <th class="text-end d-print-none">Actions</th>
+                            </tr>
+                        </thead>
+                        <!--table head end-->
+                        <!--table body start-->
+                        <tbody>
+                            @foreach (var item in Model.GradebookEnrollments)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Gradebook)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ParticipantType)
+                                    </td>
+                                    <td class="text-wrap">
+                                        @Html.DisplayFor(modelItem => item.Male)
+                                    </td>
+                                    <td class="text-wrap">
+                                        @Html.DisplayFor(modelItem => item.Female)
+                                    </td>
+                                    <td>
+                                        @{
+                                            int? total = item.Male + item.Female;
+                                        } @total
+                                    </td>
+                                    <td class="text-end d-print-none">
+                                        <div class="" role="group" aria-label="Actions">
+                                            @*<a asp-action="Details" asp-route-id="@item.GradebookEnrollmentId"
+                                               class="btn btn-default p-1 text-gray btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Details">
+                                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                            </a>*@
+
+                                            <a policy="RequireEditRole" asp-action="Edit" asp-route-id="@item.GradebookEnrollmentId"
+                                               class="text-bold btn btn-outline-secondary btn-sm d-print-none" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="bi bi-pencil" aria-hidden="true"></i> Edit
+                                            </a>
+
+                                            @*<a policy="RequireDeleteRole" asp-action="Delete" asp-route-id="@item.GradebookEnrollmentId"
+                                               class="btn btn-default p-1 text-secondary btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                                            </a>*@
+                                            @if (ViewBag.NextController != null)
+                                            {
+                                                <a asp-controller="@ViewBag.NextController"
+                                                   asp-action="Index" asp-route-id="@item.GradebookEnrollmentId" class="btn btn-link btn-sm d-print-none btn-action" data-container="body" data-bs-toggle="tooltip" data-placement="top" title="Open">
+                                                    <i class="fas fa-chevron-right fa-sm" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <!--table body end-->
+                    </table>
+                    <!--table end-->
+                </div>
+                <!--content footer end-->
+                <!--content footer start-->
+                <div class="dataTables_wrapper" id="datatable-footer">
+                </div>
+                <!--content footer end-->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- content section end-->
+<!-- content end-->
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_ListStylesPartial");
+    }
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ListScriptsPartial");
+    }
+}
+

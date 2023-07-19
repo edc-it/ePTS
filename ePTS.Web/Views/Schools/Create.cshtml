@@ -1,0 +1,339 @@
+﻿@model ePTS.Entities.Core.School
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>School</h4>
+<hr />
+<div class="row">
+    <form asp-action="Create" id="main-form" class="needs-validation mb-3" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="RefOrganizationTypeId" type="hidden" value="@ViewBag.RefOrganizationTypeId" />
+        <input asp-for="ParentOrganizationId" type="hidden" value="@ViewBag.ParentId" />
+        <input asp-for="IsOrganizationUnit" type="hidden" value="false" />
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-group required">
+                    <label asp-for="RegistrationDate" class="form-label"></label>
+                    <div class="input-group">
+                        <input asp-for="RegistrationDate" autocomplete="off" type="text" class="form-control date" placeholder="Select Registration Date" required />
+                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    </div>
+                    <div class="form-text">Year-Month-Day (YYYY-MM-DD)</div>
+                    <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-group required">
+                    <label asp-for="Code" class="form-label">EMIS Code</label>
+                    <input asp-for="Code" class="form-control" autocomplete="off" placeholder="Enter EMIS Code" required />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group required mb-3">
+            <label asp-for="OrganizationName" class="form-label">School Name</label>
+            <input asp-for="OrganizationName" class="form-control" autocomplete="off" placeholder="Enter the school name" required />
+            <span asp-validation-for="OrganizationName" class="text-danger"></span>
+        </div>
+
+        @{
+            <div id="location-container" class="row">
+                @{
+                    var i = 0;
+                }
+                @if (ViewBag.RefLocationTypes != null)
+                {
+                    @foreach (var item in ViewBag.RefLocationTypes as IEnumerable<ePTS.Entities.Reference.RefLocationType>)
+                    {
+                        @if (item.LocationLevel == 2)
+                        {
+                            <div class="mb-3 col-md-6 required form-group">
+                                <label class="form-label">@item.LocationType</label>
+                                <select class="form-select" data-locationlevel="@item.LocationLevel" id="RefLocation@{
+                                                                                                    @item.LocationLevel
+                                        }Id" name="RefLocationId[@i]" data-val="true" asp-items="@ViewBag.RefLocationId" required>
+                                    <option disabled selected></option>
+                                </select>
+                                <span class="text-danger field-validation-valid" data-valmsg-for="RefLocationId[@i]" data-valmsg-replace="true"></span>
+
+                            </div>
+                        }
+                        else
+                        {
+                            if (item.LocationLevel == (int)ViewData["RefLocationTypesCount"])
+                            {
+                                <div class="mb-3 col-md-6 required form-group">
+                                    <label class="form-label">@item.LocationType</label>
+                                    <select class="form-select" data-locationlevel="@item.LocationLevel" id="RefLocation@{
+                                                                                                    @item.LocationLevel
+                                        }Id" name="RefLocationId[@i]" data-val="true" required>
+                                        <option disabled selected></option>
+                                    </select>
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="RefLocationId[@i]" data-valmsg-replace="true"></span>
+
+                                </div>
+                            }
+                            else
+                            {
+                                if (item.LocationLevel == 3)
+                                {
+                                    <div class="mb-3 col-md-6 required form-group">
+                                        <label class="form-label">@item.LocationType</label>
+                                        <select class="form-select" data-locationlevel="@item.LocationLevel" id="RefLocation@{
+                                                                                                    @item.LocationLevel
+                                        }Id" name="RefLocationId[@i]" data-val="true" required>
+                                            <option disabled selected></option>
+                                        </select>
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="RefLocationId[@i]" data-valmsg-replace="true"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3 col-md-6 required form-group">
+                                        <label class="form-label">@item.LocationType</label>
+                                        <select class="form-select" data-locationlevel="@item.LocationLevel" id="RefLocation@{
+                                                                                                    @item.LocationLevel
+                                        }Id" name="RefLocationId[@i]" data-val="true" data-val-required="The Organization Name field is required." required>
+                                            <option disabled selected></option>
+                                        </select>
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="RefLocationId[@i]" data-valmsg-replace="true"></span>
+                                    </div>
+                                }
+                            }
+                        }
+                        i++;
+                    }
+                }
+            </div>
+        }
+
+        <div class="form-group mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <textarea asp-for="Address" class="form-control"></textarea>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="SchoolCode" class="form-label"></label>
+            <input asp-for="SchoolCode" class="form-control" autocomplete="off" />
+            <span asp-validation-for="SchoolCode" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label asp-for="RefSchoolTypeId" class="form-label"></label>
+                    <select asp-for="RefSchoolTypeId" class="form-control form-select" asp-items="ViewBag.RefSchoolTypeId">
+                        <option selected></option>
+                    </select>
+                    <span asp-validation-for="RefSchoolTypeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group required">
+                    <label asp-for="RefSchoolLocationId" class="form-label"></label>
+                    <select asp-for="RefSchoolLocationId" class="form-control form-select" data-val="true" asp-items="ViewBag.RefSchoolLocationId" required>
+                        <option disabled selected></option>
+                    </select>
+                    <span asp-validation-for="RefSchoolLocationId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group required">
+                    <label asp-for="RefSchoolAdministrationTypeId" class="form-label"></label>
+                    <select asp-for="RefSchoolAdministrationTypeId" class="form-control form-select" asp-items="ViewBag.RefSchoolAdministrationTypeId" required>
+                        <option disabled selected></option>
+                    </select>
+                    <span asp-validation-for="RefSchoolAdministrationTypeId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="form-group required">
+                    <label asp-for="RefSchoolLanguageId" class="form-label"></label>
+                    <select asp-for="RefSchoolLanguageId" class="form-control form-select" asp-items="ViewBag.RefSchoolLanguageId" required>
+                        <option disabled selected></option>
+                    </select>
+<span asp-validation-for="RefSchoolLanguageId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="OpeningDate" class="form-label"></label>
+                    <div class="input-group">
+                        <input asp-for="OpeningDate" autocomplete="off" type="text" class="form-control date" placeholder="Select Opening Date" />
+                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    </div>
+                    <div class="form-text">Year-Month-Day (YYYY-MM-DD)</div>
+                    <span asp-validation-for="OpeningDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="ClosingDate" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="ClosingDate" autocomplete="off" type="text" class="form-control date" placeholder="Select Closing Date" />
+                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                        </div>
+                        <div class="form-text">Year-Month-Day (YYYY-MM-DD)</div>
+                        <span asp-validation-for="ClosingDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <div class="form-group required">
+                    <label asp-for="RefSchoolStatusId" class="form-label"></label>
+                    <select asp-for="RefSchoolStatusId" class="form-control form-select" asp-items="ViewBag.RefSchoolStatusId" required>
+                        <option disabled selected></option>
+                    </select>
+<span asp-validation-for="RefSchoolStatusId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="Latitude" class="form-label"></label>
+                    <input asp-for="Latitude" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="Latitude" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="Longitude" class="form-label"></label>
+                    <input asp-for="Longitude" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="Longitude" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-0 mb-3 align-content-end text-end">
+            <div class="col-sm-12">
+                <a asp-action="Index" id="cancelbutton" asp-route-id="@ViewBag.ParentId" class="btn btn-outline-secondary me-1 cancel-button">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i> Cancel
+                </a>
+                <button id="submitbutton" type="submit" class="btn btn-primary save-button" data-style="expand-left" data-spinner-color="black">
+                    <i class="bi bi-check2" aria-hidden="true"></i> Create
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_CreateStylesPartial");
+        <link href="~/lib/tom-select/dist/css/tom-select.min.css" rel="stylesheet">
+        <link href="~/lib/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+        <link href="~/lib/vanillajs-datepicker/dist/css/datepicker.css" rel="stylesheet" />
+        <link href="~/lib/vanillajs-datepicker/dist/css/datepicker-bs5.min.css" rel="stylesheet" />
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @{
+        await Html.RenderPartialAsync("_CreateScriptsPartial");
+
+    }
+
+    <script src="~/lib/tom-select/dist/js/tom-select.popular.min.js"></script>
+    <script src="~/lib/vanillajs-datepicker/dist/js/datepicker.min.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var validator = $('#main-form').validate({ /* settings */ });
+            $('#submitbutton')
+                .on('click', function (e) {
+                    // prevents default submit
+                    e.preventDefault();
+
+                    var form = $('#main-form');
+                    if (form.valid()) {
+                        // activates button 'loading..' style and disables submit button after one click
+                        $('#submitbutton').addClass('disabled');
+                        $(".save-button")
+                            .html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...`);
+                        // disable cancel button after submit
+                        $('#cancelbutton').addClass('disabled');
+                        // submit form
+                        form.submit();
+                    }
+                    else {
+                        // if form is valid submits, else focus to invalid fields
+                        validator.focusInvalid();
+                    }
+                });
+            
+
+            const inputs = document.querySelectorAll('.date');
+
+            for (let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                //new Datepicker(input);
+                new Datepicker(input, {
+                    autohide: true,
+                    format: 'yyyy-mm-dd',
+                    updateOnBlur: false,
+                    buttonClass: 'btn',
+                });
+            }
+            
+            // Counts the total number of available Location level inputs
+            var totalLocationLevels = $('[data-locationlevel]').length;
+            
+            // JQuery select2 chained drop-downs by [data-locationlevel]
+            // On change or remove event clears select options and
+            // requests (Ajax) the new selected location options
+            $('[data-locationlevel]')
+            
+                .bind("change remove", function (e) {
+                    e.preventDefault();
+
+                    var locationLevel = $(this).data('locationlevel');
+                    var locationId = $(this).val();
+
+                    if (locationId) {
+            
+                        $.ajax({
+                            type: "Post",
+                            url: "/Requests/GetLocations/" + locationId,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.length) {
+                                    for (var i = 1; i < (totalLocationLevels); i++) {
+                                        $('[data-locationlevel="' + (locationLevel + i) + '"]').empty().val();
+                                    }
+
+                                    $('[data-locationlevel="' + (locationLevel + 1) + '"]').append("<option value=''></option>");
+                                    $(data).each(function () {
+                                        $('[data-locationlevel="' + (locationLevel + 1) + '"]').append("<option value='" + this.refLocationId + "'>" + this.locationName + "</option>");
+                                    });
+                                    
+                                }
+                            }
+                        });
+                    }
+                    // if the parente level select was removed - clear chained select options
+                    // on each lower level select
+                    else {
+                        for (var i = 1; i < (totalLocationLevels); i++) {
+                            $('[data-locationlevel="' + (locationLevel + i) + '"]').empty();
+                            
+                        }
+                    }
+                });
+
+
+        });
+    </script>
+}

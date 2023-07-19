@@ -1,0 +1,64 @@
+﻿@model ePTS.Entities.Gradebooks.GradebookEnrollment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>GradebookEnrollment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+            <!--fk select start-->
+                <label asp-for="GradebookId" class="control-label"></label>
+                <select asp-for="GradebookId" class ="form-control" asp-items="ViewBag.GradebookId"></select>
+                <!--fk select end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="RegistrationDate" class="control-label"></label>
+                <input asp-for="RegistrationDate" class="form-control" />
+                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+                <!--input end-->
+            </div>
+            <div class="form-group">
+            <!--fk select start-->
+                <label asp-for="RefParticipantTypeId" class="control-label"></label>
+                <select asp-for="RefParticipantTypeId" class ="form-control" asp-items="ViewBag.RefParticipantTypeId"></select>
+                <!--fk select end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="Male" class="control-label"></label>
+                <input asp-for="Male" class="form-control" />
+                <span asp-validation-for="Male" class="text-danger"></span>
+                <!--input end-->
+            </div>
+                    <!--Add Date here-->
+            <div class="form-group">
+            <!--input start-->
+                <label asp-for="Female" class="control-label"></label>
+                <input asp-for="Female" class="form-control" />
+                <span asp-validation-for="Female" class="text-danger"></span>
+                <!--input end-->
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

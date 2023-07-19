@@ -1,0 +1,110 @@
+﻿@model ePTS.Models.ViewModels.ApplicationUsersViewModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AccessFailedCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AccessFailedCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LockoutEnabled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LockoutEnabled)
+
+            @if (Model.LockoutEnabled == true)
+            {
+                @string.Format("True")
+            }
+            else
+            {
+                @string.Format("False")
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LockoutEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.LockoutEnd != null)
+            {
+
+                if (Model.LockoutEnd.Value.UtcDateTime > DateTime.Now)
+                {
+                    @string.Format("Locked until: ")
+                    @Html.DisplayFor(modelItem => Model.LockoutEnd.Value.UtcDateTime)
+                }
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <!--footer buttons start-->
+    <div class="row mt-5">
+        <div class="col">
+
+            <form asp-action="Unlock" id="main-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <a asp-action="Index" class="btn btn-secondary mr-1"><i class="bi bi-chevron-left"></i> Back to List</a>
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="Id" />
+                <button id="submitbutton" type="submit" value="Unlock" class="btn btn-success">
+                    <span id="spinner" class="d-none spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <i class="bi bi-unlock"></i> Unlock
+                </button>
+            </form>
+        </div>
+    </div>
+    <!--footer buttons end-->
+</div>
+
+@section Scripts {
+<script>
+    $(document).ready(function(){
+        // Disables Submit button after one click if form is valid
+        // sets "loading..." button styles
+        var validator = $('#main-form').validate({ /* settings */ });
+        $('#submitbutton')
+            .on('click', function (e) {
+                // prevents default submit
+                e.preventDefault();
+
+                var form = $('#main-form');
+                if (form.valid()) {
+                    // activates button 'loading..' style and disables submit button after one click
+                    $('#spinner').removeClass('d-none');
+                    $('#submitbutton').addClass('disabled');
+                    // disable cancel button after submit
+                    $('#cancelbutton').addClass('disabled');
+                    // submit form
+                    form.submit();
+                }
+                else {
+                    // if form is valid submits, else focus to invalid fields
+                    validator.focusInvalid();
+                }
+            });
+    });
+</script>
+}

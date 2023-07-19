@@ -42,29 +42,13 @@ namespace ePTS.Entities.Gradebooks
         [Column(Order = 4)]
         public DateTime RegistrationDate { get; set; }
 
-        [Display(Name = "AssessedFemale", Prompt = "Enter the number of females assessed")]
+        [Display(Name = "Assessed Female", Prompt = "Enter the number of females assessed")]
         [Column(Order = 5)]
-        public int? AssessedFemale { get; set; }
+        public int AssessedFemale { get; set; } = 0;
 
-        [Display(Name = "AssessedMale", Prompt = "Enter the number of males assessed")]
+        [Display(Name = "Assessed Male", Prompt = "Enter the number of males assessed")]
         [Column(Order = 6)]
-        public int? AssessedMale { get; set; }
-
-        [Display(Name = "Assessed", Prompt = "Enter the total number assessed")]
-        [Column(Order = 7)]
-        public int? Assessed { get; set; }
-
-        [Display(Name = "Absent Female", Prompt = "Enter the number of absent females")]
-        [Column(Order = 8)]
-        public int? AbsentFemale { get; set; }
-
-        [Display(Name = "Absent Male", Prompt = "Enter the number of absent males")]
-        [Column(Order = 9)]
-        public int? AbsentMale { get; set; }
-
-        [Display(Name = "Assessed", Prompt = "Enter the total number absent")]
-        [Column(Order = 10)]
-        public int? Absent { get; set; }
+        public int AssessedMale { get; set; } = 0;
 
         [Display(Name = "Gradebook Assessment Status")]
         [Comment("A reference to the status of the gradebook, such as active or inactive. This is a foreign key that references the RefGradebookStatus table")]

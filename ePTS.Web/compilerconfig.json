@@ -2,7 +2,7 @@
   {
     "outputFile": "wwwroot/lib/theme/custom.css",
     "inputFile": "wwwroot/lib/theme/custom.scss",
-    "sourcemap": true,
+    "sourcemap": false,
     "sourceComments": false,
     "sourceMapEmbed": true,
     "sourceMapContents": true,

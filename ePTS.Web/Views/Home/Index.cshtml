@@ -1,8 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-auto mt-0 mb-0">
+                    <span class="text-secondary">Home</span>
+                    <h1 class="mb-0">Welcome to the ePTS</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <a asp-controller="Organizations"
+               asp-action="Index"
+               asp-route-id=""
+               class="text-uppercase text-bold text-decoration-none">
+                Start here
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container px-5 text-center">
+    @*<h1 class="display-6">Report content</h1>*@
+    @*<div class="px-3">
+        <i class="bi bi-gear-fill display-6 text-muted"></i>
+    </div>
+    <p class="lead">Coming Soon!</p>*@
+</div>
+
