@@ -18,7 +18,7 @@ const resizePlugins = () => {
     const tabs = document.querySelectorAll('.nav');
     const sidebarResponsive = document.querySelector('.sidebar-default');
 
-    const isWindowSmall = window.innerWidth < 1025;
+    const isWindowSmall = window.innerWidth < 1300;
 
     // toggle classes based on window width
     tabs.forEach(elem => {
