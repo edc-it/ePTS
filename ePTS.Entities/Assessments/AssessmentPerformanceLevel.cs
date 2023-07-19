@@ -40,13 +40,9 @@ namespace ePTS.Entities.Assessments
         [Column(Order = 5)]
         public int RefSexId { get; set; }
 
-        [Display(Name = "Possible Value", Prompt = "Enter the possible value")]
-        [Column(Order = 6)]
-        public double? PossibleValue { get; set; }
-
-        [Display(Name = "Score Value", Prompt = "Enter the score value")]
+        [Display(Name = "Score", Prompt = "Enter the score value")]
         [Column(Order = 7)]
-        public double? ScoreValue { get; set; }
+        public int? Score { get; set; }
 
         [ForeignKey("GradebookAssessmentId")]
         [Display(Name = "Gradebook Assessments")]
