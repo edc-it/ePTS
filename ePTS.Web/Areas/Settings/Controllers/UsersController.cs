@@ -14,7 +14,7 @@ using ePTS.Entities.Gradebooks;
 namespace ePTS.Web.Areas.Settings.Controllers
 {
     [Area("Settings")]
-    [Authorize(Policy = "RequireCreateRole")]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class UsersController : BaseController
     {
         //private readonly ApplicationDbContext _context;
@@ -61,7 +61,9 @@ namespace ePTS.Web.Areas.Settings.Controllers
                                from p3subquery in p3joined.DefaultIfEmpty()
                                join p4 in _context.Organizations on p3subquery.ParentOrganizationId equals p4.OrganizationId into p4joined
                                from p4subquery in p4joined.DefaultIfEmpty()
-                               where o.OrganizationId == selectedOrganizationId || childOrganizationIds.Contains(o.OrganizationId)
+                               where (o.OrganizationId == selectedOrganizationId || childOrganizationIds.Contains(o.OrganizationId))
+                                     // Don't show the current user in the list
+                                     && userId != u.Id
                                select new ApplicationUsersViewModel
                                {
                                    MoGE = p1subquery.RefOrganizationTypeId == 2 ? p1subquery.OrganizationName : p2subquery.RefOrganizationTypeId == 2 ? p2subquery.OrganizationName : p3subquery.RefOrganizationTypeId == 2 ? p3subquery.OrganizationName : p4subquery.RefOrganizationTypeId == 2 ? p4subquery.OrganizationName : null,

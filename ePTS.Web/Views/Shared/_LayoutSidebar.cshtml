@@ -1,6 +1,6 @@
 ﻿@using ePTS.Web.Extensions;
 
-<aside class="sidebar sidebar-base sidebar-transparent sidebar-default sidebar-white navs-pill d-print-none">
+<aside class="sidebar sidebar-base sidebar-transparent sidebar-default sidebar-white navs-pill d-print-none ">
     <!-- Sidebar Header Start -->
     <div class="sidebar-header d-flex align-items-center justify-content-start">
         <a href="" class="navbar-brand">
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a policy="RequireCreateRole" class="nav-link @Html.IsActive("Settings", "Users", "Index")" asp-area="Settings" asp-controller="Users" asp-action="Index" aria-current="page">
+                    <a policy="RequireAdministratorRole" class="nav-link @Html.IsActive("Settings", "Users", "Index")" asp-area="Settings" asp-controller="Users" asp-action="Index" aria-current="page">
                         <i class="fs-5 bi bi-person-badge-fill"></i>
                         <span class="item-name">Users</span>
                     </a>

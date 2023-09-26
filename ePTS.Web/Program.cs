@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -52,23 +53,23 @@ builder.Services.AddDistributedMemoryCache();
 // Sets Idle Session Timeout to 2 hours (before requesting user to login again)
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "ePTSSession";
-    options.IdleTimeout = TimeSpan.FromHours(24);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.Cookie.Name = "ePTSSession"; // Set the name of the session cookie to "ePTSSession"
+    options.IdleTimeout = TimeSpan.FromHours(2); // Session timeout set to 24 hours
+    options.Cookie.HttpOnly = true; // Cookie is inaccessible to JavaScript on the client side (this is good for security reasons)
+    options.Cookie.IsEssential = true; // Cookie is marked as essential, so it won't be blocked if user disables non-essential cookies
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-    options.Cookie.Name = "ePTSApp";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromHours(24);
-    //options.LoginPath = "/Identity/Account/Login";
+    //options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Uncomment if you want to set a custom access denied path
+    options.Cookie.Name = "ePTSApp"; // Name of the authentication cookie
+    options.Cookie.HttpOnly = true; // Cookie is inaccessible to JavaScript on the client side (this is good for security reasons)
+    options.ExpireTimeSpan = TimeSpan.FromHours(24); // Auth cookie expiration time set to 24 hours
+    //options.LoginPath = "/Identity/Account/Login"; // Uncomment if you want to set a custom login path
     // ReturnUrlParameter requires 
     // add using Microsoft.AspNetCore.Authentication.Cookies;
-    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-    options.SlidingExpiration = true;
+    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter; // Default behavior, typically used to redirect users back to the page they tried accessing before logging in
+    options.SlidingExpiration = true; // If true, the expiration time of the cookie will be reset on each request, effectively making it so the cookie only expires if the user is inactive for the duration of the ExpireTimeSpan.
 });
 
 // Using Role-based authorization to validate user roles access

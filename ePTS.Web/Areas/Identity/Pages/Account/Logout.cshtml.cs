@@ -27,6 +27,10 @@ namespace ePTS.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
+
+            // Clear the "SelectedOrganizationId" session value here
+            HttpContext.Session.Remove("SelectedOrganizationId");
+
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
