@@ -222,7 +222,8 @@ namespace ePTS.Web.Controllers
             {
 
                 var assessmentId = await _context.Assessments
-                    .Where(x => x.RefGradeLevelId == gradebook.RefGradeLevelId)
+                    //TODO: set assessment status to 1 for now
+                    .Where(x => x.RefGradeLevelId == gradebook.RefGradeLevelId && x.RefAssessmentStatusId == 1)
                     .Select(x => x.AssessmentId)
                     .FirstOrDefaultAsync();
 
@@ -232,7 +233,8 @@ namespace ePTS.Web.Controllers
                 }
 
                 var gradebookPeriodId = await _context.GradebookPeriods
-                    .Where(x => x.RefGradeLevelId == gradebook.RefGradeLevelId)
+                    //TODO: set gradebook period status to 1 for now
+                    .Where(x => x.RefGradeLevelId == gradebook.RefGradeLevelId && x.RefGradebookPeriodStatusId == 1)
                     .Select(x => x.GradebookPeriodId)
                     .FirstOrDefaultAsync();
 
