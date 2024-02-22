@@ -114,3 +114,5 @@ Education Development Center (EDC) is a global nonprofit that advances lasting s
 300 Fifth Avenue, Suite 2010
 Waltham, MA 02451
 Phone: 617-969-7100
+
+_This ePTS software is made possible by the support of the American People through the United States Agency for International Development (USAID)._
