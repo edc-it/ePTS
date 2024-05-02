@@ -2,6 +2,7 @@ using ePTS.Data;
 using ePTS.Entities.Audit;
 using ePTS.Entities.Identity;
 using ePTS.Models.Models;
+using ePTS.Web.Configuration;
 using ePTS.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -9,16 +10,14 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.MSSqlServer;
-using Serilog.Sinks.SystemConsole.Themes;
 using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var practiceEnvironmentSettings = new PracticeEnvironmentSettings();
+
+builder.Configuration.GetSection("PracticeEnvironment").Bind(practiceEnvironmentSettings);
+builder.Services.AddSingleton(practiceEnvironmentSettings);
 
 // Add configuration
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -134,72 +133,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<IEmailSender, EmailService>();
-
-
-
-
-#region Serilog Configuration
-// Add Serilog
-// Optional (remove when in production)
-Serilog.Debugging.SelfLog.Enable(Console.Error);
-
-// Configure Serilog
-// columnOptions are used to remove the LogEvent column from the database
-// and add the LogEvent column to the database
-// This is to allow the use of Serilog's LogEventLevel to filter the log events
-// in the database
-var columnOptions = new ColumnOptions();
-columnOptions.Store.Remove(StandardColumn.LogEvent);
-columnOptions.Store.Add(StandardColumn.LogEvent);
-
-// the log file path is set to the Logs folder in the application root
-var logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs\\log-.json");
-
-// default log level is Error
-var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Error);
-
-// 
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .MinimumLevel.ControlledBy(levelSwitch)
-    .Enrich.FromLogContext()
-    //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    //.MinimumLevel.Override("System", LogEventLevel.Warning)
-    //.MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-    .WriteTo.Console(
-        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
-        theme: AnsiConsoleTheme.Literate,
-        applyThemeToRedirectedOutput: true
-    )
-    .WriteTo.File(
-        new JsonFormatter(),
-        logFilePath,
-        rollingInterval: RollingInterval.Day,
-        rollOnFileSizeLimit: true,
-        fileSizeLimitBytes: 10_000_000, //10485760, 
-        retainedFileCountLimit: 10
-        //formatter: new JsonFormatter()
-        //outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-    )
-    .WriteTo.MSSqlServer(
-        columnOptions: columnOptions,
-        connectionString: connectionString,
-        sinkOptions: new MSSqlServerSinkOptions
-        {
-            TableName = "ApplicationLogs",
-            AutoCreateSqlTable = false,
-        },
-        restrictedToMinimumLevel: LogEventLevel.Information
-    )
-    .CreateLogger();
-
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(dispose: true);
-
-// Add Serilog levelSwitch as a Singleton so it can be injected into the controller
-builder.Services.AddSingleton(levelSwitch);
-
-#endregion
 
 // Authorization handlers
 // Add CookieTempDataProvider for ViewData Messaging
