@@ -70,6 +70,12 @@
             <!-- Sidebar End -->
             <!-- Main Content Start -->
             <main role="main" class="main-content">
+                @if (PracticeEnvironmentSettings.IsActive)
+                {
+                    <div class="text-bg-custom-warning text-center p-2">
+                        <h5>ePTS Practice Environment</h5>
+                    </div>
+                }
                 <!-- Nav Start -->
                 <partial name="_LayoutNavbar" />
                 <!-- Nav End -->
@@ -95,7 +101,6 @@
         <!-- App End -->
     </div>
     <!-- Root End -->
-
     <!-- jQuery Script -->
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
 

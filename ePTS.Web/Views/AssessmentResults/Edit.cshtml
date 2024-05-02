@@ -302,7 +302,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group justify-content-end flex-nowrap">
-                                                @Html.TextBox("performance[" + (@i + 10) + "].Score", Model.AssessmentPerformanceLevels[i].Score, new { @Class = "performance form-control required text-end", data_assessed_value=Model.AssessmentPerformanceLevels[i].Assessed, data_performance = i, tabindex = i + 100, data_val = "true", data_val_required = "This field is required", autocomplete = "off", inputmode = "numeric" })
+                                                @Html.TextBox("performance[" + (@i + 10) + "].Score", Model.AssessmentPerformanceLevels[i].Score, new { @Class = "performance form-control required text-end", data_assessed_value = Model.AssessmentPerformanceLevels[i].Assessed, data_sex_value = Model.AssessmentPerformanceLevels[i].RefSexId, data_performance = i, tabindex = i + 100, data_val = "true", data_val_required = "This field is required", autocomplete = "off", inputmode = "numeric" })
                                                 <span class="input-group-text bg-light" style="width:42px;">
                                                     @Html.Raw(Model.AssessmentPerformanceLevels[i].SexId)
                                                 </span>
@@ -766,6 +766,60 @@
             return "Input value is greater than the assessed value (" + $(element).data('assessed-value') + ").";
         });
 
+        //Add a custom validation method that checks if input by sex is not greater than the total assessed value
+        $.validator.addMethod("notGreaterThanTotalAssessedValueBySex", function (value, element) {
+            var assessedValue = $(element).data('assessed-value');
+            var sexValue = $(element).data('sex-value');
+            var totalScoreBySex = 0;
+
+            // Iterate through all score inputs to calculate the total score for the specified sex
+            $(".performance").each(function () {
+                if ($(this).data('sex-value') == sexValue) {
+                    var scoreValue = parseFloat($(this).val()) || 0;
+                    totalScoreBySex += scoreValue;
+                }
+            });
+
+            // Check if the total score for the specified sex does not exceed the assessed value
+            return this.optional(element) || totalScoreBySex <= assessedValue;
+        }, function (params, element) {
+            return "The total input value for this sex exceeds the assessed value (" + $(element).data('assessed-value') + ").";
+        });
+
+        $.validator.addMethod("sumEqualsAssessedValueBySex", function (value, element, params) {
+            let sexValue = $(element).data('sex-value');
+            let assessedValue = parseFloat($(element).data('assessed-value'));
+            let totalScoreBySex = 0;
+            let allFieldsFilled = true;
+
+            // Sum values and check if all required fields for this sex are filled
+            $(`.performance[data-sex-value="${sexValue}"]`).each(function () {
+                let inputValue = parseFloat($(this).val());
+                if (!inputValue && inputValue !== 0) {
+                    allFieldsFilled = false; // Found an empty field
+                } else {
+                    totalScoreBySex += inputValue;
+                }
+            });
+
+            // Attach the total sum to the element for access in the message function
+            $(element).data('total-sum', totalScoreBySex.toFixed(2)); // Adjust decimal precision as needed
+
+            // Validate only if all fields are filled, comparing total to assessed value
+            if (allFieldsFilled) {
+                return totalScoreBySex === assessedValue;
+            }
+
+            // If not all fields are filled, postpone validation (consider valid for now)
+            return true;
+        }, function (params, element) {
+            // Access the total sum from the data attribute for the message
+            let totalSum = $(element).data('total-sum');
+            return `The total scores for this sex must sum exactly to the assessed value (${$(element).data('assessed-value')}). You've entered a total of ${totalSum}.`;
+        });
+
+
+
         $(document).ready(function () {
 
             const elem = document.querySelector('input[name="RegistrationDate"]');
@@ -782,6 +836,24 @@
                     notGreaterThanAssessedValue: true
                 });
             });
+
+            $(".performance").each(function () {
+                $(this).rules("add", {
+                    notGreaterThanTotalAssessedValueBySex: true
+                });
+            });
+
+            $(".performance").each(function () {
+                $(this).rules("add", {
+                    sumEqualsAssessedValueBySex: true
+                });
+            });
+            
+            // Mark inputs as "interacted" once the user has changed or left the field
+            $(".performance").on('blur change', function () {
+                $(this).data('has-interacted', true);
+            });
+            
 
             
             var form = $('#main-form');
